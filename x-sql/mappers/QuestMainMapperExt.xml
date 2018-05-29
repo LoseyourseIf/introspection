@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<select id="filter" parameterType="artisan_cms.domain.form.QuestFilterForm"
+        resultType="java.util.HashMap">
+    SELECT *
+    FROM (
+    SELECT
+    qn.quest_id AS questId,
+    qm.quest_type AS questType,
+    qn.id AS questNodeId,
+    qn.quest_node_request AS questNodeRequest,
+    qn.node_name AS questNodeName,
+    qn.node_code AS nodeCode,
+    qn.creater AS createrId,
+    (SELECT name
+    FROM user
+    WHERE id = qn.creater) AS creater,
+    qn.creater_org AS createrOrgId,
+    (SELECT o.name
+    FROM organize o
+    WHERE o.id = qn.creater_org) AS createrOrg,
+    qn.assigned AS assignedId,
+    (SELECT name
+    FROM user
+    WHERE id = qn.assigned) AS assigned,
+    qn.assigned_org AS assignedOrgId,
+    (SELECT o.name
+    FROM organize o
+    WHERE o.id = qn.assigned_org) AS assignedOrg,
+    qm.for_short AS forShort,
+    (SELECT field
+    FROM dictionary
+    WHERE type = 'dic-priority' AND enabled = 1 AND sort = qn.priority) AS priority,
+    qn.priority AS prioritySort,
+    (SELECT field
+    FROM dictionary
+    WHERE type = 'dic-importance' AND enabled = 1 AND sort = qn.importance) AS importance,
+    qn.importance AS importanceSort,
+    (SELECT field
+    FROM dictionary
+    WHERE type = 'dic-urgency' AND enabled = 1 AND sort = qn.urgency) AS urgency,
+    qn.urgency AS urgencySort,
+    (SELECT field
+    FROM dictionary
+    WHERE type = 'dic-difficulty' AND enabled = 1 AND sort = qn.difficulty) AS difficulty,
+    qn.difficulty AS difficultySort,
+    qm.quest_desc AS questDesc,
+    qm.main_attachment AS mainAttachment,
+    qn.quest_attachment AS questAttachment,
+    qn.overall_situation AS overallSituation,
+    date_format(qn.start_date, '%Y-%m-%d') AS startDate,
+    date_format(qn.end_date, '%Y-%m-%d') AS endDate,
+    CASE WHEN timestampdiff(DAY, qn.start_date, qn.end_date) = 0
+    THEN 1
+    ELSE
+    timestampdiff(DAY, qn.start_date, qn.end_date) END AS questCycle,
+    qn.is_regular AS isRegular,
+    qn.regular_type AS regularType,
+    qn.frequency AS frequency,
+    qn.frequency_start AS frequencyStart,
+    CASE WHEN qn.priority = 0
+    THEN 0
+    ELSE
+    timestampdiff(DAY,date_format(NOW(),'%Y-%m-%d'),date_format(qn.end_date,'%Y-%m-%d')) END AS
+    questRemainDays,
+    qn.duration AS duration,
+    CASE WHEN qn.priority = 0
+    THEN 0
+    ELSE
+    qn.round_last_day END AS roundLastDay,
+    date_format(qn.round_last_date,
+    '%Y-%m-%d') AS roundLastDate
+    FROM quest_main qm
+    LEFT JOIN quest_node qn
+    ON qn.quest_id = qm.id
+    WHERE qm.enabled = 1 AND qn.enabled = 1
+    <choose>
+        <when test="userRank &lt; 2">
+            AND 1=1
+        </when>
+        <when test="userRank == 3 or userRank == 2">
+            AND (
+            qn.creater_org IN
+            (SELECT id FROM organize WHERE parent = #{userOrg} OR id = #{userOrg})
+            OR qn.assigned_org IN
+            (SELECT id FROM organize WHERE parent = #{userOrg} OR id = #{userOrg})
+            )
+        </when>
+        <when test="userRank == 4">
+            AND (
+            qn.creater_org = #{userOrg}
+            OR qn.assigned_org = #{userOrg}
+            )
+        </when>
+        <otherwise>
+            AND (
+            qn.creater = #{userId}
+            OR qn.assigned = #{userId}
+            )
+        </otherwise>
+    </choose>
+    ) nm
+    WHERE 1=1
+    <if test="filters!=null and filters.size>0">
+        <foreach collection="filters" index="index" item="item" separator=" ">
+            <if test="item.keywords != null and item.keywords != ''">
+                AND instr(nm.${item.searchType}, #{item.keywords}) > 0
+            </if>
+        </foreach>
+        <foreach collection="filters" index="index" item="item" separator=" ">
+            <if test="null != item.condition">
+                AND nm.${item.searchType} IN
+                <foreach collection="item.condition" index="index" item="subitem"
+                         open="(" separator="," close=")">
+                    #{subitem}
+                </foreach>
+            </if>
+        </foreach>
+        <foreach collection="filters" index="index" item="item" separator=",">
+            <if test="null != item.sort">
+                <choose>
+                    <when test="index==0">
+                        ORDER BY nm.${item.searchType}
+                    </when>
+                    <otherwise>
+                        nm.${item.searchType}
+                    </otherwise>
+                </choose>
+                <if test="item.sort == 1">ASC</if>
+                <if test="item.sort == 0">DESC</if>
+            </if>
+        </foreach>
+    </if>
+</select>
