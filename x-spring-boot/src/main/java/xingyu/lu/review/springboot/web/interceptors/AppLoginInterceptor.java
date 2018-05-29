@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 public class AppLoginInterceptor implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader(ResourceUtil.getSystem("JWT.TOKEN.NAME"));
         response.setCharacterEncoding("UTF-8");
@@ -50,12 +49,10 @@ public class AppLoginInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
     }
 
-    @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
     }
