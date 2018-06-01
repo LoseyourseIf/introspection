@@ -17,6 +17,8 @@
         <module>x-sb-multiple</module>
     </modules>
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
         <spring.boot.version>1.5.12.RELEASE</spring.boot.version>
         <mysql.connector.java.version>8.0.11</mysql.connector.java.version>

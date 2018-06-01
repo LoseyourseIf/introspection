@@ -8,11 +8,21 @@
     <artifactId>x-sb-multiple</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>xingyu.lu.review</groupId>
+            <artifactId>x-tools</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
     <modules>
         <module>multiple-component-1</module>
         <module>multiple-component-2</module>
-        <module>multiple-config</module>
         <module>multiple-app</module>
     </modules>
-
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+    </properties>
 </project>

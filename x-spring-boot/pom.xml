@@ -16,6 +16,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+    </properties>
+
     <build>
         <finalName>introspection</finalName>
         <plugins>
@@ -24,7 +30,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>xingyu.lu.review.springboot.web.Application</mainClass>
+                    <mainClass>xingyu.lu.review.springboot.Application</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
