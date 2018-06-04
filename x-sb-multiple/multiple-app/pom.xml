@@ -31,7 +31,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.5.12.RELEASE</version>
                 <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>xingyu.lu.review.sb.multiple.app</mainClass>
+                    <mainClass>xingyu.lu.review.sb.multiple.app.Application</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
