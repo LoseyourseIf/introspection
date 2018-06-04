@@ -14,6 +14,7 @@
         <module>x-sql</module>
         <module>x-tools</module>
         <module>x-spring-boot</module>
+        <module>x-spring-boot-multiple-db</module>
         <module>x-sb-multiple</module>
     </modules>
     <properties>
