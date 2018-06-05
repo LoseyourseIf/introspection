@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <select id="filter" parameterType="artisan_cms.domain.form.QuestFilterForm"
         resultType="java.util.HashMap">
     SELECT *
