@@ -6,33 +6,16 @@
 
     <parent>
         <groupId>xingyu.lu.review</groupId>
-        <artifactId>introspection</artifactId>
+        <artifactId>x-spring-boot-multiple-db</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>x-spring-boot-multiple-db</artifactId>
+    <artifactId>multiple-db-api</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <dependencies>
-        <dependency>
-            <groupId>xingyu.lu.review</groupId>
-            <artifactId>x-tools</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
-    <modules>
-        <module>multiple-db-api</module>
-        <module>multiple-db-app</module>
-        <module>multiple-db-config</module>
-        <module>multiple-db-cluster-dao</module>
-        <module>multiple-db-master-dao</module>
-        <module>multiple-db-service</module>
-    </modules>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
     </properties>
-
+    
 </project>
