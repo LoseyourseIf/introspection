@@ -1,4 +1,4 @@
-package xingyu.lu.review.db.multiple.conf;
+package xingyu.lu.review.db.multiple.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
