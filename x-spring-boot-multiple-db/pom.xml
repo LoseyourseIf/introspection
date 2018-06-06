@@ -25,6 +25,7 @@
         <module>multiple-db-api</module>
         <module>multiple-db-app</module>
         <module>multiple-db-config</module>
+        <module>multiple-db-domain</module>
         <module>multiple-db-cluster-dao</module>
         <module>multiple-db-master-dao</module>
         <module>multiple-db-service</module>
