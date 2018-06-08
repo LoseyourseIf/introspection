@@ -145,7 +145,7 @@
                     <columnOverride column="" javaType=""    jdbcType="" typeHandler=""  delimitedColumnName="" />
 
                 </table> -->
-        <table tableName="jp_user" domainObjectName="User"
+        <table tableName="user" domainObjectName="User"
                enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false"
                enableUpdateByPrimaryKey="false">

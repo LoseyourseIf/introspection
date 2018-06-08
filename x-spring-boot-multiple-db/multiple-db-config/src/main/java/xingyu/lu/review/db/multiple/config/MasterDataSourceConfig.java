@@ -15,12 +15,12 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = MasterDataSourceConfig.PACKAGE, sqlSessionTemplateRef = "baseSqlSessionTemplate")
+@MapperScan(basePackages = MasterDataSourceConfig.PACKAGE, sqlSessionFactoryRef = "masterSqlSessionFactory")
 public class MasterDataSourceConfig {
 
-    // 精确到 master 目录，以便跟其他数据源隔离
+    // 跟其他数据源隔离
     static final String PACKAGE = "xingyu.lu.review.db.multiple.dao.master";
-    private static final String MAPPER_LOCATION = "classpath:mapper/master/*.xml";
+    private static final String MAPPER_LOCATION = "classpath:mappers/master/*.xml";
 
     @Value("${spring.datasource.master.url}")
     private String url;

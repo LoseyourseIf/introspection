@@ -23,9 +23,9 @@ import javax.sql.DataSource;
 public class ClusterDataSourceConfig {
 
 
-    // 精确到 cluster 目录，以便跟其他数据源隔离
+    // 跟其他数据源隔离
     static final String PACKAGE = "xingyu.lu.review.db.multiple.dao.cluster";
-    private static final String MAPPER_LOCATION = "classpath:mapper/cluster/*.xml";
+    private static final String MAPPER_LOCATION = "classpath:mappers/cluster/*.xml";
 
     @Value("${spring.datasource.cluster.url}")
     private String url;

@@ -145,11 +145,10 @@
                     <columnOverride column="" javaType=""    jdbcType="" typeHandler=""  delimitedColumnName="" />
 
                 </table> -->
-        <table tableName="jp_user" domainObjectName="User"
+        <table tableName="user_order" domainObjectName="UserOrder"
                enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false"
                enableUpdateByPrimaryKey="false">
         </table>
-
     </context>
 </generatorConfiguration>
