@@ -7,6 +7,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import xingyu.lu.review.db.multiple.Application;
 import xingyu.lu.review.db.multiple.dao.cluster.UserOrderMapperExt;
 import xingyu.lu.review.db.multiple.dao.master.UserMapperExt;
+import xingyu.lu.review.db.multiple.domain.master.User;
+import xingyu.lu.review.db.multiple.service.UserService;
 
 import javax.annotation.Resource;
 
@@ -21,7 +23,8 @@ public class TestMultipleDataSource {
     private UserMapperExt userMapperExt;
     @Resource
     private UserOrderMapperExt userOrderMapperExt;
-
+    @Resource
+    private UserService userService;
     @Test
     public void testSelect() {
         System.out.println(
@@ -32,6 +35,18 @@ public class TestMultipleDataSource {
         System.out.println(
                 JSON.toJSONString(
                         userOrderMapperExt.selectByPrimaryKey(1),
+                        SerializerFeature.PrettyFormat));
+    }
+    @Test
+    public void testSwitchOver() {
+        System.out.println(
+                JSON.toJSONString(
+                        userService.getMasterUserById(1),
+                        SerializerFeature.PrettyFormat));
+
+        System.out.println(
+                JSON.toJSONString(
+                        userService.getClusterUserById(1),
                         SerializerFeature.PrettyFormat));
     }
 }
