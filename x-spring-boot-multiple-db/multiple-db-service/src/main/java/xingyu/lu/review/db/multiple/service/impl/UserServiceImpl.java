@@ -2,7 +2,7 @@ package xingyu.lu.review.db.multiple.service.impl;
 
 import org.springframework.stereotype.Service;
 import xingyu.lu.review.db.multiple.aop.SwitchOver;
-import xingyu.lu.review.db.multiple.config.DataSourceContextHolder;
+import xingyu.lu.review.db.multiple.config.DataSourceConfigurer;
 import xingyu.lu.review.db.multiple.dao.master.UserMapperExt;
 import xingyu.lu.review.db.multiple.domain.master.User;
 import xingyu.lu.review.db.multiple.service.UserService;
@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         return userMapperExt.selectByPrimaryKey(userId);
     }
 
-    @SwitchOver(db = DataSourceContextHolder.CLUSTER_DATASOURCE)
+    @SwitchOver(db = DataSourceConfigurer.CLUSTER_DB_NAME)
     @Override
     public User getClusterUserById(Integer userId) {
         return userMapperExt.selectByPrimaryKey(userId);

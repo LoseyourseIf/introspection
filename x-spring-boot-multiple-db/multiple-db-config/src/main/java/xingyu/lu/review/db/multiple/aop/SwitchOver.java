@@ -1,22 +1,19 @@
 package xingyu.lu.review.db.multiple.aop;
 
-import xingyu.lu.review.db.multiple.config.DataSourceContextHolder;
+import xingyu.lu.review.db.multiple.config.DataSourceConfigurer;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
- * 自定义注解 用于在编码时指定方法使用哪个数据源
+ * (╯‵□′)╯︵┻━┻
+ * 数据源注解，用于设置数据源的 key，指定使用哪个数据源
  *
- * @author xingyu.lu
- * @create 2018-06-08 11:58
- **/
+ * @author  xingyu.lu
+ * @date    18/6/11 14:37
+ */
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Target({
-        ElementType.METHOD
-})
+@Documented
 public @interface SwitchOver {
-    String db() default DataSourceContextHolder.MASTER_DATASOURCE;
+    String db() default DataSourceConfigurer.MASTER_DB_NAME;
 }

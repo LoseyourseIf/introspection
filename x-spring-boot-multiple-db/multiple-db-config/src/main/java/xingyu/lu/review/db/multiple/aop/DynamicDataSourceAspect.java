@@ -4,52 +4,51 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import xingyu.lu.review.db.multiple.config.DataSourceContextHolder;
-
-import java.lang.reflect.Method;
+import xingyu.lu.review.db.multiple.config.DynamicDataSourceContextHolder;
 
 /**
+ * (╯‵□′)╯︵┻━┻
+ * 动态数据源切换的切面，切 @TargetDataSource 注解，实现数据源切换
+ *
  * @author xingyu.lu
- * @create 2018-06-08 11:59
- **/
+ * @date 18/6/11 14:38
+ */
 @Aspect
 @Component
 public class DynamicDataSourceAspect {
-    @Before("@annotation(SwitchOver)")
-    public void beforeSwitchDS(JoinPoint point) {
+    private static final Logger logger = LoggerFactory.getLogger(DynamicDataSourceAspect.class);
 
-        //获得当前访问的class
-        Class<?> className = point.getTarget().getClass();
-
-        //获得访问的方法名
-        String methodName = point.getSignature().getName();
-        //得到方法的参数的类型
-        Class[] argClass = ((MethodSignature) point.getSignature()).getParameterTypes();
-        String dataSource = DataSourceContextHolder.MASTER_DATASOURCE;
-        try {
-            // 得到访问的方法对象
-            Method method = className.getMethod(methodName, argClass);
-
-            // 判断是否存在@SwitchOver注解
-            if (method.isAnnotationPresent(SwitchOver.class)) {
-                SwitchOver annotation = method.getAnnotation(SwitchOver.class);
-                // 取出注解中的数据源名
-                dataSource = annotation.db();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    /**
+     * Switch DataSource
+     *
+     * @param point
+     * @param switchOver
+     */
+    @Before("@annotation(switchOver))")
+    public void switchDataSource(JoinPoint point, SwitchOver switchOver) {
+        if (!DynamicDataSourceContextHolder.containDataSourceKey(switchOver.db())) {
+            logger.error("DataSource [{}] doesn't exist, use default DataSource [{}]", switchOver.db());
+        } else {
+            DynamicDataSourceContextHolder.setDataSourceKey(switchOver.db());
+            logger.info("Switch DataSource to [{}] in Method [{}]",
+                    DynamicDataSourceContextHolder.getDataSourceKey(), point.getSignature());
         }
-
-        // 切换数据源
-        DataSourceContextHolder.setDB(dataSource);
-
     }
 
-
-    @After("@annotation(SwitchOver)")
-    public void afterSwitchDS(JoinPoint point) {
-        DataSourceContextHolder.clearDB();
+    /**
+     * Restore DataSource
+     *
+     * @param point
+     * @param switchOver
+     */
+    @After("@annotation(switchOver))")
+    public void restoreDataSource(JoinPoint point, SwitchOver switchOver) {
+        DynamicDataSourceContextHolder.clearDataSourceKey();
+        logger.info("Restore DataSource to [{}] in Method [{}]",
+                DynamicDataSourceContextHolder.getDataSourceKey(), point.getSignature());
     }
+
 }
