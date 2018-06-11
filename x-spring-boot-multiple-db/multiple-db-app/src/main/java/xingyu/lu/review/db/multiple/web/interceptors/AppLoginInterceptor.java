@@ -27,25 +27,25 @@ public class AppLoginInterceptor implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader(ResourceUtil.getSystem("JWT.TOKEN.NAME"));
-        response.setCharacterEncoding("UTF-8");
-        response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-
-
-        if (StringUtils.isBlank(token)) {
-            response.getWriter().write(JSON.toJSONString(ResultModel.customError
-                    (ErrorConstants.INVALID_LOGIN_CODE,
-                            ErrorConstants.INVALID_LOGIN_MSG)));
-            return false;
-        }
-
-        Claims claims = JWTHelper.checkLoginToken(token);
-        if (claims == null) {
-            response.getWriter().write(JSON.toJSONString(ResultModel.customError
-                    (ErrorConstants.INVALID_LOGIN_CODE,
-                            ErrorConstants.INVALID_LOGIN_MSG)));
-            return false;
-        }
+//        String token = request.getHeader(ResourceUtil.getSystem("JWT.TOKEN.NAME"));
+//        response.setCharacterEncoding("UTF-8");
+//        response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+//
+//
+//        if (StringUtils.isBlank(token)) {
+//            response.getWriter().write(JSON.toJSONString(ResultModel.customError
+//                    (ErrorConstants.INVALID_LOGIN_CODE,
+//                            ErrorConstants.INVALID_LOGIN_MSG)));
+//            return false;
+//        }
+//
+//        Claims claims = JWTHelper.checkLoginToken(token);
+//        if (claims == null) {
+//            response.getWriter().write(JSON.toJSONString(ResultModel.customError
+//                    (ErrorConstants.INVALID_LOGIN_CODE,
+//                            ErrorConstants.INVALID_LOGIN_MSG)));
+//            return false;
+//        }
         return true;
     }
 
