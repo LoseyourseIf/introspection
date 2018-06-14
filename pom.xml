@@ -11,6 +11,7 @@
     <modules>
         <module>x-basic</module>
         <module>x-linux</module>
+        <module>x-architecture</module>
         <module>x-sql</module>
         <module>x-tools</module>
         <module>x-spring-boot</module>
