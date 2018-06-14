@@ -1,4 +1,4 @@
-## Linux 禅道安装记录
+## CentOS-7-禅道安装记录
 
 ```shell
 cd /opt
