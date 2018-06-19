@@ -1,6 +1,5 @@
 package xingyu.lu.review.tools.http;
 
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
