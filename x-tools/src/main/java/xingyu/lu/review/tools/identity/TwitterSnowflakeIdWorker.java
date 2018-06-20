@@ -1,7 +1,7 @@
 package xingyu.lu.review.tools.identity;
 
 /**
- * Twitter的雪花算法
+ * Twitter雪花算法
  *
  * @author xingyu.lu
  * @create 2018-03-24 11:00
@@ -23,7 +23,6 @@ public class TwitterSnowflakeIdWorker {
     /**
      * 开始时间截 (2018-01-01)
      */
-
     private final long twepoch = 1514736000000L;
 
     /**
@@ -91,8 +90,6 @@ public class TwitterSnowflakeIdWorker {
      */
     private long lastTimestamp = -1L;
 
-    //==============================Constructors=====================================
-
     /**
      * 构造函数
      *
@@ -109,8 +106,6 @@ public class TwitterSnowflakeIdWorker {
         this.workerId = workerId;
         this.dataCenterId = dataCenterId;
     }
-
-    // ==============================Methods==========================================
 
     /**
      * 测试
@@ -156,9 +151,9 @@ public class TwitterSnowflakeIdWorker {
         lastTimestamp = timestamp;
 
         //移位并通过或运算拼到一起组成64位的ID
-        return ((timestamp - twepoch) << timestampLeftShift) //
-                | (dataCenterId << datacenterIdShift) //
-                | (workerId << workerIdShift) //
+        return ((timestamp - twepoch) << timestampLeftShift)
+                | (dataCenterId << datacenterIdShift)
+                | (workerId << workerIdShift)
                 | sequence;
     }
 
@@ -175,8 +170,6 @@ public class TwitterSnowflakeIdWorker {
         }
         return timestamp;
     }
-
-    //==============================Test=============================================
 
     /**
      * 返回以毫秒为单位的当前时间
