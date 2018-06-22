@@ -9,6 +9,11 @@ public class UserOrder {
      *
      * @mbggenerated
      */
+    /**
+	   * id
+	   * default = null
+	   * length = 10
+	   */
     private Integer id;
 
     /**
@@ -17,6 +22,11 @@ public class UserOrder {
      *
      * @mbggenerated
      */
+    /**
+	   * 订单号
+	   * default = null
+	   * length = 50
+	   */
     private String orderNo;
 
     /**
@@ -25,6 +35,11 @@ public class UserOrder {
      *
      * @mbggenerated
      */
+    /**
+	   * 
+	   * default = null
+	   * length = 19
+	   */
     private Date createTime;
 
     /**

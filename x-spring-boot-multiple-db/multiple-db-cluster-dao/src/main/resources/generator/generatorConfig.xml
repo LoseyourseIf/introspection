@@ -12,8 +12,12 @@
     <context id="MySQLTables" targetRuntime="MyBatis3Simple">
 
         <!--<plugin type="xyz.mrwood.mybatis.generator.plugin.plugins.LombokPlugin"/>-->
-
+        <!-- 集成lombok -->
+        <plugin type="xyz.mrwood.mybatis.generator.plugin.plugins.LombokPlugin"/>
+        <!--生成拓展类-->
         <plugin type="xyz.mrwood.mybatis.generator.plugin.plugins.ExtPlugin" />
+        <!--每个字段添加数据库字段注释-->
+        <plugin type="xyz.mrwood.mybatis.generator.plugin.plugins.CommentPlugin" />
 
         <!-- optional，旨在创建class时，对注释进行控制 -->
         <commentGenerator>
