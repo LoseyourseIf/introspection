@@ -14,3 +14,8 @@ Start Mysql success
 
 Apache 和 Mysql 启动成功后 访问80端口出现则禅道页面安装成功
 修改密码跟随教程了解使用
+####
+```shell
+/opt/zbox/app/zentao/www/data/upload/1
+/opt/zbox/data/mysql/zentao
+```
