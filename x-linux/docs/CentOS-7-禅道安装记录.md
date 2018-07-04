@@ -2,7 +2,7 @@
 
 ```shell
 cd /opt
-wget http://dl.cnezsoft.com/zentao/9.8.3/ZenTaoPMS.9.8.3.zbox_64.tar.gz
+wget http://dl.cnezsoft.com/zentao/10.0/ZenTaoPMS.10.0.stable.zbox_64.tar.gz
 sudo tar -zxvf  ZenTaoPMS.9.8.3.zbox_64.tar.gz 
 sudo /opt/zbox/zbox start
 ```
