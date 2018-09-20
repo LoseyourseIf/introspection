@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper>
+    <select id="getPikingListData"
+            resultType="com.kmair.mcc.extensions.domain.amicos.MrqPikingList">
+        select *
+        from (
+                 select
+                     rownum     as mrq_rownum,
+                     mrq.ITEMNO as item,
+                     mrq.PARTID as mrqPartId,
+                     mrq.PN     as mrqPn,
+                     mrq.QTY    as mrqQty
+                 from MRQITEM mrq
+                 where mrq.ORDERID = #{orderId}
+                 order by item asc) mrq
+            left JOIN (select
+                           ba.PARTID             as reservedPartId,
+                           si.MRQ_ITEMNO         as siItemNo,
+                           pnr.PN                AS reservedPn,
+                           ba.BN                 AS bn,
+                           si.ISSUED_QTY         AS issuedQty,
+                           pnr.STORAGEUNIT       as storageUnit,
+                           (select PN_CLASS
+                            from IRC
+                            where IRC = pnr.IRC) as pnClass,
+                           ba.EXPIRYDATE         AS expiryDate,
+                           pnr.DESCRIPTION       as description,
+                           ba.PRICEEACH          AS priceEach,
+                           ba.CURRENCY           AS currency,
+                           ba.STOCK              AS stock,
+                           ba.LOCATION           AS location
+                       FROM STOCKISSUE si LEFT JOIN BATCH ba on si.BN = ba.BN
+                           left join PNRREG pnr on si.PARTID = pnr.PARTID
+                       where si.MRQ_ORDERID = #{orderId}
+                       order by si.MRQ_ITEMNO asc) si_ba_pnr
+                on mrq.ITEM = si_ba_pnr.siItemNo
+            left join (select
+                           rownum              as mrq_b_rownum,
+                           mrq_batch.ITEMNO    as mrqBatItemNo,
+                           mrq_batch.PARTSERID as mrqBatPartSerialId,
+                           snnreg.SN           as sn
+                       from MRQITEMBATCH mrq_batch
+                           left join SNRREG snnreg on mrq_batch.PARTSERID = snnreg.PARTSERID
+                       where mrq_batch.ORDERID = #{orderId}
+                       order by mrq_batch.ITEMNO asc) mrq_b_sn
+                on mrq.mrq_rownum = mrq_b_sn.mrq_b_rownum
+    </select>
+</mapper>
