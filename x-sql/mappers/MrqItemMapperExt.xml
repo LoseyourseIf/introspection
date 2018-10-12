@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper>
-    <select id="getPikingListData"
-            resultType="com.kmair.mcc.extensions.domain.amicos.MrqPikingList">
+    <!--Oracle-->
+    <select id="getPikingListData">
         select *
         from (
                  select

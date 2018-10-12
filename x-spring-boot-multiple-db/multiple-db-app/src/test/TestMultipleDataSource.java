@@ -49,4 +49,11 @@ public class TestMultipleDataSource {
                         userService.getClusterUserById(1),
                         SerializerFeature.PrettyFormat));
     }
+    @Test
+    public void testGetAllUser() {
+        System.out.println(
+                JSON.toJSONString(
+                        userService.getAllUser(),
+                        SerializerFeature.PrettyFormat));
+    }
 }
