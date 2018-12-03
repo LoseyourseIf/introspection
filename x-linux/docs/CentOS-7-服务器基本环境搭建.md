@@ -74,6 +74,10 @@ yum install nginx
   (4) 访问日志：`/var/log/nginx/access.log`
 
   (5) 默认站点目录：`/usr/share/nginx/html`
+  
+  service nginx start
+  service nginx stop
+  service nginx reload
 
 ## MYSQL
 
