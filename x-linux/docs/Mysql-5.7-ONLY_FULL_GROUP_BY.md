@@ -29,4 +29,5 @@ sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_
 
 - 重启 mysql
 
+
 注意 使用 set @@global.sql_mode = ......;也能解决问题、但是数据库重启后设置还原
