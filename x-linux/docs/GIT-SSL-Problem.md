@@ -9,6 +9,7 @@ env GIT_SSL_NO_VERIFY=true git push
 
 ​	这里push可以根据需要换成其他的git命令。
 
+
 ​	也可以把临时环境变量变为永久
 
 ```shell
