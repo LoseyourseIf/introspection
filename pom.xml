@@ -14,10 +14,7 @@
         <module>x-architecture</module>
         <module>x-sql</module>
         <module>x-tools</module>
-        <module>x-spring-boot</module>
         <module>x-spring-boot-multiple-db</module>
-        <module>x-spring-boot-dubbo-demo</module>
-        <module>x-sb-multiple</module>
     </modules>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
