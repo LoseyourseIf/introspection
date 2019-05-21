@@ -14,7 +14,7 @@ import java.util.Arrays;
 /**
  * 微信小程序加解密
  *
- * @author liuyazhuang
+ * @author xingyu.lu
  */
 public class WxPKCS7Encoder {
     private static final Charset CHARSET = Charset.forName("utf-8");

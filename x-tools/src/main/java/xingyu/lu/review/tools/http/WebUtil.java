@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by lxy on 17/7/12.
  */
 public class WebUtil {
+    //    Nginx X-FORWARDED 请求头
     private static final String X_FORWARDED_FOR = "x-forwarded-for";
     private static final String UNKNOWN = "unknown";
     private static final String PROXY_CLIENT_IP = "Proxy-Client-IP";
