@@ -1,4 +1,4 @@
---oracle 分组排序
+--oracle 分组排序 OVER PARTITION BY
 select * from (
   select
     ROW_NUMBER()
