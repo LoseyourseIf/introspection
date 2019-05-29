@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper>
+    <select id="getPreFlightData">
+        SELECT
+        <include refid="baseColumn"/>
+        FROM (SELECT
+        <include refid="baseColumn"/>,
+        @rn := IF(@prev = ac_reg, @rn + 1, 1) AS rn,
+        @prev := ac_reg
+        FROM flight join (select
+        @prev := NULL,
+        @rn := 0) AS vars
+        where flight_date = str_to_date(#{date}, '%Y-%m-%d')
+        and ac_reg is not null
+        ORDER BY
+        CASE WHEN etd IS NOT NULL
+        THEN etd
+        ELSE std END ASC) f
+        where rn &lt;= 1
+        GROUP BY ac_reg
+    </select>
+</mapper>
