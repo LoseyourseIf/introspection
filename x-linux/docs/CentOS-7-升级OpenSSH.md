@@ -20,6 +20,7 @@ yum install -y gcc openssl-devel pam-devel rpm-build
 
 ```shell
 wget http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.8p1.tar.gz
+验证MD5
 ```
 
 #### 3、卸载原Openssh
