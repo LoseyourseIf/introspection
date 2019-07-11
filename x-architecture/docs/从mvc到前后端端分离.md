@@ -6,7 +6,7 @@
 
 综上所述，MVC的交互过程如图1所示。
 
-![mvc](../../x-linux/docs/img/mvc.jpg)
+![mvc](../../x-architecture/docs/img/mvc.jpg)
 
 ### **MVC模式的优点与不足**
 
@@ -22,7 +22,7 @@
 
 改进后的MVC模式如图2所示。
 
-![img](../../x-linux/docs/img/enhance-mvc.jpg) 
+![img](../../x-architecture/docs/img/enhance-mvc.jpg) 
 
 也就是说，我们输入的是AJAX请求，输出的是JSON数据，市面上有这样的技术来实现这个功能吗？答案是REST。
 
@@ -30,7 +30,7 @@
 
 如果将浏览器这一端视为前端，而服务器那一端视为后端的话，可以将以上改进后的MVC模式简化为以下前后端分离模式，如图3所示。
 
-![img](../../x-linux/docs/img/f-b-separation.jpg) 
+![img](../../x-architecture/docs/img/f-b-separation.jpg) 
 
 
 
