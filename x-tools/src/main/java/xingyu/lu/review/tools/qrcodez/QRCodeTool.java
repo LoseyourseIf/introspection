@@ -20,10 +20,13 @@ public class QRCodeTool {
 
     public static void main(String[] args) throws WriterException {
         try {
-            generateQRCode(1200, 1200,
-                    "http://ip:port/qrcode/shop/0001",
-                    "/Users/lxy/IdeaProjects/introspection/qrcode/0001.jpeg",
-                    "/Users/lxy/IdeaProjects/introspection/qrcode/logo.jpeg");
+            for (int i = 1; i <= 3000; i++) {
+                generateQRCode(1200, 1200,
+                        "http://midu.city.weixin.kmlckj.com/weixin/problem-complaint/shop/" + i,
+                        "/Users/lxy/IdeaProjects/introspection/qrcode/" + i + ".jpeg",
+                        "/Users/lxy/IdeaProjects/introspection/qrcode/logo.jpeg");
+                Thread.sleep(2000);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
