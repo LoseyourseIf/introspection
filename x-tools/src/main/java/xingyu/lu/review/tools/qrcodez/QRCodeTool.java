@@ -18,14 +18,18 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class QRCodeTool {
 
+    private static final String QRCODE_URL = "http://url/";
+    private static final String QRCODE_LOGO_IMAGE_PATH = "/Users/lxy/IdeaProjects/introspection/qrcode/logo.jpeg";
+    private static final String QRCODE_IMAGE_SAVE_PATH = "/Users/lxy/IdeaProjects/introspection/qrcode/";
+
     public static void main(String[] args) throws WriterException {
         try {
             for (int i = 1; i <= 3000; i++) {
                 generateQRCode(1200, 1200,
-                        "http://midu.city.weixin.kmlckj.com/weixin/problem-complaint/shop/" + i,
-                        "/Users/lxy/IdeaProjects/introspection/qrcode/" + i + ".jpeg",
-                        "/Users/lxy/IdeaProjects/introspection/qrcode/logo.jpeg");
-                Thread.sleep(2000);
+                        QRCODE_URL + i,
+                        QRCODE_IMAGE_SAVE_PATH + i + ".jpeg",
+                        QRCODE_LOGO_IMAGE_PATH);
+                Thread.sleep(1000);
             }
 
         } catch (Exception e) {
