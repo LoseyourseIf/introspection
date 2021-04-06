@@ -18,7 +18,7 @@ select @@GLOBAL.sql_mode;
 ```
 
 - 看到上面的 ONLY_FULL_GROUP_BY 就是罪魁祸首
-  - ​ONLY_FULL_GROUP_BY的意思是：对于GROUP BY聚合操作，如果在SELECT中的列，没有在GROUP BY中出现，那么这个SQL是不合法的，因为列不在GROUP BY从句中，也就是说查出来的列必须在GROUP BY后面出现否则就会报错，或者这个字段出现在聚合函数里面。
+  - ONLY_FULL_GROUP_BY的意思是：对于GROUP BY聚合操作，如果在SELECT中的列，没有在GROUP BY中出现，那么这个SQL是不合法的，因为列不在GROUP BY从句中，也就是说查出来的列必须在GROUP BY后面出现否则就会报错，或者这个字段出现在聚合函数里面。
 - 如果去改sql那么就很麻烦，推荐直接关掉这个配置项
 
 ```shell

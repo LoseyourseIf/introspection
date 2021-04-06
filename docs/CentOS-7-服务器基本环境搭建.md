@@ -95,7 +95,7 @@ yum install nginx
   yum localinstall mysql57-community-release-el7-8.noarch.rpm
   ```
 
-  ​
+  
 
 - 检查mysql源是否安装成功`yum repolist enabled | grep "mysql.*-community.*"`
 
@@ -108,11 +108,11 @@ yum install nginx
 
 - 可以修改`vim /etc/yum.repos.d/mysql-community.repo`源，改变默认安装的mysql版本。比如要安装5.6版本，将5.7源的enabled=1改成enabled=0。然后再将5.6源的enabled=0改成enabled=1即可
 
-  ​
+  
 
 - 安装mysql`yum install mysql-community-server`
 
-  ​
+  
 
 - 启动`systemctl start mysqld`
 
