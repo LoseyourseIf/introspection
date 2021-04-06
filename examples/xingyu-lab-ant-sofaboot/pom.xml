@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>svc-provider</module>
+        <module>svc-consumer</module>
+        <module>svc-facade</module>
+    </modules>
+
+    <parent>
+        <groupId>com.alipay.sofa</groupId>
+        <artifactId>sofaboot-dependencies</artifactId>
+        <version>3.4.6</version>
+        <relativePath/>
+    </parent>
+    <!--
+      SOFABoot 版本	Spring Boot 版本
+      2.3.x	1.4.2.RELEASE
+      2.4.x	1.4.2.RELEASE
+      2.5.x	1.5.16.RELEASE
+      3.0.x	2.0.3.RELEASE
+      3.1.x	2.1.0.RELEASE
+      3.2.x	2.1.0.RELEASE
+      3.3.0～3.3.1	2.1.11.RELEASE
+      3.3.2 及以后	2.1.13.RELEASE
+      3.4.6         2.1.13.RELEASE
+    -->
+
+    <packaging>pom</packaging>
+
+    <groupId>xingyu.lab</groupId>
+    <artifactId>xingyu-lab-ant-sofaboot</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <!--sofa rpc-->
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>rpc-sofa-boot</artifactId>
+            <version>3.4.6-wave-flux-framework</version>
+        </dependency>
+
+        <!--健康检查 /health-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>healthcheck-sofa-boot-starter</artifactId>
+        </dependency>
+        <!--健康检查-->
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>rpc-sofa-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alipay.sofa</groupId>
+                    <artifactId>rpc-sofa-boot</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--sofa rpc-->
+
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!--lombok-->
+
+        <!--Test-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--Test-->
+
+    </dependencies>
+</project>

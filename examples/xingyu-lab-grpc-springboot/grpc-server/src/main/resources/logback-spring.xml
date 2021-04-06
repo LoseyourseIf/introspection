@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+
+    <springProperty name="logHome" source="logging.path" defaultValue="./logs"/>
+    <property name="LOG_HOME" value="${logHome}"/>
+    <springProperty name="logName" source="logging.name" defaultValue="default"/>
+    <property name="LOG_NAME" value="${logName}"/>
+
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <conversionRule conversionWord="colorCvt"
+                    converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="spaceCvt"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="spaceExtCvt"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <property name="FILE_LOG_PATTERN"
+              value="${FILE_LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%spaceExtCvt}}"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%colorCvt(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %colorCvt(${LOG_LEVEL_PATTERN:-%5p}) %colorCvt(${PID:- }){magenta} %colorCvt(---){faint} %colorCvt([%15.15t]){faint} %colorCvt(%-40.40logger{39}){cyan} %colorCvt(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%spaceExtCvt}}"/>
+
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                ${CONSOLE_LOG_PATTERN}
+            </pattern>
+        </layout>
+    </appender>
+
+    <appender name="infoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>
+                ${FILE_LOG_PATTERN}
+            </pattern>
+        </encoder>
+        <file>${LOG_HOME}/${LOG_NAME}-all.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                <!--%d 日期格式 %i 指定Rolling时的序号-->
+                ${LOG_HOME}/backup/${LOG_NAME}-log-all-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>365</maxHistory>
+            <!--指定回滚大小-->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="errorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>
+                ${FILE_LOG_PATTERN}
+            </pattern>
+        </encoder>
+        <file>${LOG_HOME}/${LOG_NAME}-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOG_HOME}/backup/${LOG_NAME}-log-error-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>365</maxHistory>
+            <!--指定回滚大小-->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="consoleLog"/>
+        <appender-ref ref="infoLog"/>
+        <appender-ref ref="errorLog"/>
+    </root>
+</configuration>

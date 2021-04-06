@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: svc-sofa-grpc-provider
+
+logging:
+  path: ./logs
+
+com:
+  alipay:
+    sofa:
+      boot:
+        bean-load-cost: 100
+        module-start-up-parallel: true
+        publish-event-to-parent: false
+        allow-bean-definition-overriding: false
+      rpc:
+        registry:
+          address: nacos://nacos-headless.micro-service.101.101.101.2.nip.io:30598/wave-flux
+        triple:
+          port: 50057
+# GRPC_DEFAULT_PORT = 50051
