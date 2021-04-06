@@ -2,7 +2,7 @@ package xingyu.lu.lab.ynii;
 
 
 /**
- * 北航云南创新研究院笔试 单链表
+ * 笔试 单链表
  * @author xingyu.lu
  **/
 public class SinglyLinkedList<T> {
