@@ -1,6 +1,7 @@
 package xingyu.lu.lab.ynii;
 
 /**
+ * 手写单例模式
  * @author xingyu.lu
  * @create 2021-04-06 13:48
  **/
