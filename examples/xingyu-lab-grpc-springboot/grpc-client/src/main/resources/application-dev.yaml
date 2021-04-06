@@ -1,0 +1,20 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: wave-flux-grpc-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://101.101.101.2:31396
+        namespace: wave-flux-dev
+logging:
+  path: ./logs
+  name: grpc-client
+grpc:
+  client:
+    wave-flux-grpc-server:
+      address: 'discovery:///wave-flux-grpc-server'
+      #      address: 'dns:///wave-flux-grpc-server.micro-service.svc.cluster.local:50101'
+      #      address: 'static://127.0.0.1:9991'
+      enableKeepAlive: true

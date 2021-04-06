@@ -1,0 +1,14 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: wave-flux-grpc-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://101.101.101.2:31396
+        namespace: wave-flux-dev
+
+grpc:
+  server:
+    port: 50101
