@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 北航云南创新研究院笔试 对象池
+ * 笔试 对象池
  * @author xingyu.lu
  * @create 2021-04-01 10:32
  **/
