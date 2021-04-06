@@ -3,7 +3,7 @@ package xingyu.lu.individual.rpc.grpc.services;
 import com.google.protobuf.Any;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import xingyu.lu.individual.rpc.grpc.aop.WaveFluxGrpcMethod;
+import xingyu.lu.individual.rpc.grpc.aop.XGrpcMethod;
 import xingyu.lu.individual.rpc.grpc.module.Education;
 import xingyu.lu.individual.rpc.grpc.module.User;
 import xingyu.lu.individual.rpc.grpc.module.Work;
@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 public class UserService implements IUserService {
 
-    @WaveFluxGrpcMethod(paramType = User.class)
+    @XGrpcMethod(paramType = User.class)
     public User getUserInfo(User bizContent) {
 
         return getUserInfo(

@@ -17,7 +17,7 @@ com:
         allow-bean-definition-overriding: false
       rpc:
         registry:
-          address: nacos://nacos-headless.micro-service.101.101.101.2.nip.io:30598/wave-flux
+          address: nacos://localhost:8848
         triple:
           port: 50057
 # GRPC_DEFAULT_PORT = 50051

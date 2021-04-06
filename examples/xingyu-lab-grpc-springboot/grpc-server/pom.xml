@@ -27,7 +27,7 @@
     </dependencies>
 
     <build>
-        <finalName>wave-flux-grpc-server</finalName>
+        <finalName>grpc-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

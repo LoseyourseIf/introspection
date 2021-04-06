@@ -35,7 +35,7 @@ public class ProtobufServiceServer {
 
         RegistryConfig registryConfig = new RegistryConfig()
                 .setProtocol("nacos")
-                .setAddress("nacos-headless.micro-service.101.101.101.2.nip.io:30598/wave-flux");
+                .setAddress("localhost:8848");
 
         ServerConfig serverConfig = new ServerConfig()
                 .setProtocol(RpcConstants.PROTOCOL_TYPE_TRIPLE)

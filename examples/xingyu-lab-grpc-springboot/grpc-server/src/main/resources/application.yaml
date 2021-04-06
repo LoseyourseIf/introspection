@@ -4,7 +4,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: wave-flux-grpc-server
+    name: grpc-server
 
 logging:
   path: ./logs

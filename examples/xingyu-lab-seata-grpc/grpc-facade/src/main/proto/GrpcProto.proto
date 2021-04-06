@@ -1,0 +1,26 @@
+syntax = "proto3";
+package xingyu.lu.lab.grpc.facade;
+import "google/protobuf/any.proto";
+
+option java_multiple_files = true;
+option java_package = "xingyu.lu.lab.grpc.facade.builder";
+option java_outer_classname = "XGrpcProto";
+
+service XGrpcService {
+  rpc echoGrpc4J(XGrpcRequest) returns (XGrpcReply){}
+}
+
+message XGrpcRequest {
+  string appId = 1;
+  string method = 2;
+  string sign = 3;
+  string version = 4;
+  google.protobuf.Any bizContent = 5;
+}
+
+message XGrpcReply {
+  bool isSuccess = 1;
+  string errorCode = 2;
+  string errorMessage = 3;
+  google.protobuf.Any  bizData = 4;
+}

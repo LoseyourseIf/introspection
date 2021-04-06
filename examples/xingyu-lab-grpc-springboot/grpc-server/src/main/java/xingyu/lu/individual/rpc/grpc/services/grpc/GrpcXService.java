@@ -4,7 +4,7 @@ import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
-import xingyu.lu.individual.rpc.grpc.aop.WaveFluxGrpcMethod;
+import xingyu.lu.individual.rpc.grpc.aop.XGrpcMethod;
 import xingyu.lu.individual.rpc.grpc.facade.builder.GrpcXReply;
 import xingyu.lu.individual.rpc.grpc.facade.builder.GrpcXRequest;
 import xingyu.lu.individual.rpc.grpc.facade.builder.XServiceGrpc;
@@ -68,13 +68,13 @@ public class GrpcXService extends XServiceGrpc.XServiceImplBase {
         Method methodRef = null;
         try {
             methodOptionals = Arrays.stream(theService.getClass().getDeclaredMethods())
-                    .filter(method -> method.isAnnotationPresent(WaveFluxGrpcMethod.class)
+                    .filter(method -> method.isAnnotationPresent(XGrpcMethod.class)
                             && nameArray[1].equals(method.getName())).findFirst();
 
             if (methodOptionals.isPresent()) {
                 methodRef = methodOptionals.get();
                 Class<?> paramClazz =
-                        methodRef.getAnnotation(WaveFluxGrpcMethod.class).paramType();
+                        methodRef.getAnnotation(XGrpcMethod.class).paramType();
                 byte[] bizBytes = bizContent.toByteArray();
                 Object bo = ProtoStuffHelper.deserializer(bizBytes, paramClazz);
                 return methodRef.invoke(theService, bo);

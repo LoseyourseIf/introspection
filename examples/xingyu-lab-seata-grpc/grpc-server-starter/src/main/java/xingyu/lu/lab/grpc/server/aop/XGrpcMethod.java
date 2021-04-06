@@ -1,4 +1,4 @@
-package xingyu.lu.individual.rpc.grpc.aop;
+package xingyu.lu.lab.grpc.server.aop;
 
 
 import java.lang.annotation.ElementType;
@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface WaveFluxGrpcMethod {
+public @interface XGrpcMethod {
     Class<?> paramType();
 }

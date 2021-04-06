@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class UserDataService {
 
-    @GrpcClient(value = "wave-flux-grpc-server")
+    @GrpcClient(value = "grpc-server")
     private XServiceGrpc.XServiceBlockingStub xServiceBlockingStub;
 
     @Resource

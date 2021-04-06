@@ -16,7 +16,7 @@ import xingyu.lu.individual.svc.sofa.boot.facade.builder.SofaXServiceTriple;
 public class ConsumeService {
 
     @SofaReference(
-            uniqueId = "WaveFlux-Grpc-A",
+            uniqueId = "Grpc-A",
             interfaceType = SofaXServiceTriple.IXService.class,
             binding = @SofaReferenceBinding(
                     bindingType = RpcConstants.PROTOCOL_TYPE_TRIPLE,
@@ -24,7 +24,7 @@ public class ConsumeService {
     private SofaXServiceTriple.IXService aService;
 
     @SofaReference(
-            uniqueId = "WaveFlux-Grpc-B",
+            uniqueId = "Grpc-B",
             interfaceType = SofaXServiceTriple.IXService.class,
             binding = @SofaReferenceBinding(
                     bindingType = RpcConstants.PROTOCOL_TYPE_TRIPLE,
@@ -32,7 +32,7 @@ public class ConsumeService {
     private SofaXServiceTriple.IXService bService;
 
     @SofaReference(
-            uniqueId = "WaveFlux-Grpc-C",
+            uniqueId = "Grpc-C",
             interfaceType = SofaXServiceTriple.IXService.class,
             binding = @SofaReferenceBinding(
                     bindingType = RpcConstants.PROTOCOL_TYPE_TRIPLE,

@@ -48,7 +48,7 @@ public class GrpcXClient {
         try {
             byte[] uBytes = ProtoStuffHelper.serializer(bizContent);
             grpcXReqBuilder = GrpcXRequest.newBuilder()
-                    .setAppId("WaveFlux.OS.Grpc-Client")
+                    .setAppId("Grpc-Client")
                     .setMethod(method)
                     .setSign("secret")
                     .setVersion("0.0.1")

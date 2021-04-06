@@ -40,7 +40,7 @@ public class ProtobufServiceClient {
 
         RegistryConfig registryConfig = new RegistryConfig()
                 .setProtocol("nacos")
-                .setAddress("nacos-headless.micro-service.101.101.101.2.nip.io:30598/wave-flux");
+                .setAddress("localhost:8848");
 
         ConsumerConfig<SofaXServiceTriple.IXService> consumerConfig =
                 new ConsumerConfig<SofaXServiceTriple.IXService>();

@@ -43,7 +43,6 @@
         <dependency>
             <groupId>com.alipay.sofa</groupId>
             <artifactId>rpc-sofa-boot</artifactId>
-            <version>3.4.6-wave-flux-framework</version>
         </dependency>
 
         <!--健康检查 /health-->

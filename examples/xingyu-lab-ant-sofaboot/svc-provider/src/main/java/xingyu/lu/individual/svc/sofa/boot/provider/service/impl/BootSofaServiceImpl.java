@@ -17,7 +17,7 @@ import xingyu.lu.individual.svc.sofa.boot.provider.service.BootSofaService;
  * @create 2020-12-23 10:25
  **/
 @Service
-@SofaService(uniqueId = "WaveFlux-Grpc-B", interfaceType = SofaXServiceTriple.IXService.class,
+@SofaService(uniqueId = "Grpc-B", interfaceType = SofaXServiceTriple.IXService.class,
         bindings = {@SofaServiceBinding(
                 bindingType = RpcConstants.PROTOCOL_TYPE_TRIPLE,
                 serializeType = RpcConstants.SERIALIZE_PROTOBUF)})
