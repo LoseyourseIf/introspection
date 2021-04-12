@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>xingyu.lab</groupId>
-    <artifactId>xingyu-lab-seata-grpc</artifactId>
+    <artifactId>xingyu-lab-grpc-framework</artifactId>
     <version>0.0.7.RELEASE</version>
 
     <modules>
