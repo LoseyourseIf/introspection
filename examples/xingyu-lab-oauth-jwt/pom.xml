@@ -5,11 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>xingyu.lab</groupId>
-    <artifactId>xingyu-lab-shiro-jwt</artifactId>
+    <artifactId>xingyu-lab-oauth-jwt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <modules>
-        <module>o-authz</module>
-    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -69,11 +66,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- OAuth2 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-        </dependency>
         <!-- CLOUD-NACOS -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -126,24 +118,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <build>
-        <finalName>OAuth-Project</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>xingyu.lu.lab.auth.OAuthApplication</mainClass>
-                    <layout>ZIP</layout>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+
 </project>
