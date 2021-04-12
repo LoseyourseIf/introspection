@@ -7,9 +7,6 @@
     <groupId>xingyu.lab</groupId>
     <artifactId>xingyu-lab-shiro-jwt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <modules>
-        <module>o-authz</module>
-    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
