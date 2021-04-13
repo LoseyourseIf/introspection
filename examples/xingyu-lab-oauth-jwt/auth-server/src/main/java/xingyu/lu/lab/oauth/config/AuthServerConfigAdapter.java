@@ -59,7 +59,6 @@ public class AuthServerConfigAdapter extends AuthorizationServerConfigurerAdapte
     @Resource(name = "OAuthenticationManager", type = AuthenticationManager.class)
     private AuthenticationManager authenticationManager;
 
-
     /**
      * 授权码模式服务
      */
@@ -90,7 +89,6 @@ public class AuthServerConfigAdapter extends AuthorizationServerConfigurerAdapte
         return service;
     }
 
-
     /**
      * 令牌访问端点配置
      */
@@ -112,7 +110,7 @@ public class AuthServerConfigAdapter extends AuthorizationServerConfigurerAdapte
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
-                //oauth/token_key是公开（提供公有密匙的端点，如果你使用JWT令牌的话）
+                //oauth/token_key是公开（提供公有密匙的端点，使用JWT非对称令牌加密）
                 .tokenKeyAccess("permitAll()")
                 //oauth/check_token公开(用于资源服务访问的令牌解析端点)
                 .checkTokenAccess("permitAll()")
@@ -122,6 +120,9 @@ public class AuthServerConfigAdapter extends AuthorizationServerConfigurerAdapte
 
     /**
      * ClientDetails 配置
+     * AUTHORIZATION_CODE 授权码模式常用于社会化登录和 SSO
+     * PASSWORD 密码模式常用于外部服务的认证、授权和鉴权
+     * CLIENT_CREDENTIALS 客户端模式常用于内部服务的认证
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -139,13 +140,13 @@ public class AuthServerConfigAdapter extends AuthorizationServerConfigurerAdapte
                         AuthorizedGrantTypes.AUTHORIZATION_CODE,
                         AuthorizedGrantTypes.PASSWORD,
                         AuthorizedGrantTypes.CLIENT_CREDENTIALS,
-                        AuthorizedGrantTypes.IMPLICIT,
                         AuthorizedGrantTypes.REFRESH_TOKEN)
                 // 允许的授权范围
                 .scopes("all")
-                // false 允许跳转到授权页面
-                .autoApprove(false)
-                // 加上验证回调地址
+                // true  允许跳转到授权页面
+                // false 静默授权 需用户确认
+                .autoApprove(true)
+                // 回调地址
                 .redirectUris("https://www.baidu.com");
     }
 
