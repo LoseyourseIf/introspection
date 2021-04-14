@@ -30,10 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                //跨域
                 .csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/r/r1").hasAnyAuthority("admin")
+                .antMatchers("/openapi/v1")
+                .hasAnyAuthority("admin")
                 .anyRequest().authenticated();
         http
                 //允许表单登录

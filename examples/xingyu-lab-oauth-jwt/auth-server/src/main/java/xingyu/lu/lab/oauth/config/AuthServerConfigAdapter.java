@@ -15,52 +15,57 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 
 /**
- * @author xingyu.lu
- * @create 2021-04-12 13:21
- *
  * <p>
  * 框架默认Endpoint
  * </p>
- * <p>
  * /oauth/authorize：授权端点。
  * /oauth/token：令牌端点。
  * /oauth/confirm_access：用户确认授权提交端点。
  * /oauth/error：授权服务错误信息端点。
  * /oauth/check_token：用于资源服务访问的令牌解析端点。
  * /oauth/token_key：提供公有密匙的端点，如果你使用JWT令牌的话。
+ *
+ * @author xingyu.lu
+ * @create 2021-04-12 13:21
  */
 @Configuration
 @EnableAuthorizationServer
 public class AuthServerConfigAdapter extends AuthorizationServerConfigurerAdapter {
 
     /**
-     * Token储存
+     * JwtToken储存
      */
-    @Resource(name = "OAuthTokenStore", type = TokenStore.class)
-    private TokenStore tokenStore;
+    @Resource(name = "OAuthJwtTokenStore", type = TokenStore.class)
+    private TokenStore jwtTokenStore;
 
-    @Bean("OAuthTokenStore")
-    public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
-    }
-
+    /**
+     * ClientDetailsService 数据库存储时需更改Bean名字
+     */
     @Resource
     private ClientDetailsService clientDetailsService;
 
     /**
-     * 认证管理器
+     * JwtAccessTokenConverter
+     */
+    @Resource(name = "OAuthJwtAccessTokenConverter", type = JwtAccessTokenConverter.class)
+    private JwtAccessTokenConverter accessTokenConverter;
+
+    /**
+     * 认证管理器 AuthenticationManager
      */
     @Resource(name = "OAuthenticationManager", type = AuthenticationManager.class)
     private AuthenticationManager authenticationManager;
 
     /**
-     * 授权码模式服务
+     * 授权码 Code AuthorizationCodeServices
      */
     @Resource(name = "OAuthorizationCodeServices", type = AuthorizationCodeServices.class)
     private AuthorizationCodeServices authorizationCodeServices;
@@ -76,16 +81,21 @@ public class AuthServerConfigAdapter extends AuthorizationServerConfigurerAdapte
     @Bean
     public AuthorizationServerTokenServices tokenService() {
         DefaultTokenServices service = new DefaultTokenServices();
-        //客户端详情服务
+        // 客户端详情
         service.setClientDetailsService(clientDetailsService);
-        //支持刷新令牌
+        // 刷新令牌
         service.setSupportRefreshToken(true);
-        //令牌存储策略
-        service.setTokenStore(tokenStore);
+        // 令牌存储策略
+        service.setTokenStore(jwtTokenStore);
+
+        // JWT令牌增强
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Collections.singletonList(accessTokenConverter));
+        service.setTokenEnhancer(tokenEnhancerChain);
         // 令牌默认有效期2小时
-        service.setAccessTokenValiditySeconds(7200);
+        service.setAccessTokenValiditySeconds(2 * 60 * 60);
         // 刷新令牌默认有效期3天
-        service.setRefreshTokenValiditySeconds(259200);
+        service.setRefreshTokenValiditySeconds(72 * 60 * 60);
         return service;
     }
 
