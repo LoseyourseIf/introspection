@@ -3,7 +3,7 @@
 ###  **K8S Yaml**
 
 ```yaml
-<apiVersion: v1
+apiVersion: v1
 kind: Service
 metadata:
  name: seata-ha-server
