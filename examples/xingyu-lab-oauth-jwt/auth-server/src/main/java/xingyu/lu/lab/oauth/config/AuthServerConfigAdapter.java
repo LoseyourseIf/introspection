@@ -153,8 +153,8 @@ public class AuthServerConfigAdapter extends AuthorizationServerConfigurerAdapte
                         AuthorizedGrantTypes.REFRESH_TOKEN)
                 // 允许的授权范围
                 .scopes("all")
-                // true  允许跳转到授权页面
-                // false 静默授权 需用户确认
+                // true 静默授权 允许自动跳转到授权页面
+                // false 需用户确认
                 .autoApprove(true)
                 // 回调地址
                 .redirectUris("https://www.baidu.com");
