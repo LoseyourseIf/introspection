@@ -24,19 +24,17 @@ import java.util.HashMap;
 @Slf4j
 public class JwtHelper {
 
-    public static DecodedJWT verifyToken(String token, String publicKey, String privateKey) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public static DecodedJWT verifyToken(String token, String publicKey) throws InvalidKeySpecException, NoSuchAlgorithmException {
 
         RSAPublicKey pubKey = (RSAPublicKey) SecureUtil.getPublicKeyFromString(publicKey);
-        RSAPrivateKey priKey = (RSAPrivateKey) SecureUtil.getPrivateKeyFromString(privateKey);
 
-        return verifyToken(token, pubKey, priKey);
+        return verifyToken(token, pubKey);
     }
 
     private static DecodedJWT verifyToken(String token,
-                                          RSAPublicKey publicKey,
-                                          RSAPrivateKey privateKey) {
+                                          RSAPublicKey publicKey) {
         DecodedJWT jwt = null;
-        Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
+        Algorithm algorithm = Algorithm.RSA256(publicKey, null);
         try {
             JWTVerifier verifier = JWT.require(algorithm)
                     .withAudience("A")
@@ -69,6 +67,7 @@ public class JwtHelper {
         try {
             Algorithm algorithm = Algorithm.RSA256(publicKey, privateKey);
             return JWT.create()
+                    .withKeyId("client_id")
                     .withAudience("A")
                     .withClaim("A", 1)
                     .withIssuer("auth0")
@@ -79,6 +78,26 @@ public class JwtHelper {
         return null;
     }
 
+    /**
+     * (╯‵□′)╯︵┻━┻
+     * 注册 AppName 生成 AppId
+     * <p>TwitterSnowflakeIdWorker 推特雪花算法生成自增ID</p>
+     * 根据 AppId 生成 RSA 秘钥
+     * <p>SecureUtil ID 作为 RSA 秘钥 Seed </p>
+     * 分配 AppId 公钥 AppKey
+     * <p>RSAKeyPair pubKey priKey</p>
+     * Client 使用 AppId SignWithAppKey 请求 AuthCode
+     * 统一认证 根据  AppId + priKey 验签
+     * 使用 AppId 重定向地址 + code + SignWithPriKey + QueryString 重定向
+     * 页面收到 code + SignWithPriKey + QueryString 请求后端
+     * 后端 AppKey 验签 使用 code + SignWithAppKey 请求 Token 返回到前端
+     *
+     * <p>JWT buildToken 公钥+私钥</p>
+     * <p>JWT verifyToken 公钥</p>
+     *
+     * @author xingyu.lu
+     * @date 2021/4/21 16:00
+     */
     public static void main(String[] args) {
         TwitterSnowflakeIdWorker idWorker = new TwitterSnowflakeIdWorker(1, 1);
         long id = idWorker.nextId();
@@ -93,13 +112,13 @@ public class JwtHelper {
 
             System.out.println("PUBLIC " + pubKey);
 
-            System.out.println("PRIKEY " + priKey);
+            System.out.println("PRIVATE " + priKey);
 
             String token = JwtHelper.buildToken(pubKey, priKey);
 
             System.out.println("TOKEN " + token);
 
-            DecodedJWT jwt = JwtHelper.verifyToken(token, pubKey, priKey);
+            DecodedJWT jwt = JwtHelper.verifyToken(token, pubKey);
 
             System.out.println("JWT " + jwt.getClaims());
 

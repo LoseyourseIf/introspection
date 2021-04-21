@@ -314,11 +314,11 @@ public class DateUtil {
         return resultMap;
     }
 
-    public static void main(String[] args) {
-
-        System.out.println(parseStrToDate("2021-04-01 00:00:00", DateUtil.DATE_FORMAT_4).getTime());
-
-
+//    public static void main(String[] args) {
+//
+//        System.out.println(parseStrToDate("2021-04-01 00:00:00", DateUtil.DATE_FORMAT_4).getTime());
+//
+//
 //        System.out.println(
 //                getDateCycle(parseStrToDate("2018-04-22", DateUtil.DATE_FORMAT_2),
 //                        parseStrToDate("2018-04-30", DateUtil.DATE_FORMAT_2),
@@ -327,7 +327,7 @@ public class DateUtil {
 //        System.out.println(getRoundDate(parseStrToDate("2018-04-22", DateUtil.DATE_FORMAT_2),
 //                parseStrToDate("2018-04-30", DateUtil.DATE_FORMAT_2), true,
 //                1, 1, 1, 2, 1));
-
-    }
+//
+//    }
 
 }
