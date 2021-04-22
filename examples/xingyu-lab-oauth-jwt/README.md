@@ -29,9 +29,9 @@
 第三方 | 生态合作伙伴接入
 1. 在 OS-RBAC 统一资源权限管理服务 申请账号
 2. 创建接入应用
-3. 审核通过分配 AppId AppSecret (私钥)
-4. 第三方应用通过 AppId + 私钥签名向 统一认证服务 请求 TOKEN
-5. 统一认证服务根据 AppId 使用公钥验签
+3. 审核通过分配 AppId AppSecret 
+4. 第三方应用通过 AppId + 秘钥签名向 统一认证服务 请求 TOKEN
+5. 统一认证服务根据 AppId 使用秘钥验签
 6. 使用 CLIENT_CREDENTIALS 模式生成 TOKEN
 7. 第三方 | 生态合作伙伴 带 TOKEN 请求 OpenApi 网关
 8. 网关校验 TOKEN 反向代理到微服务后端接口
