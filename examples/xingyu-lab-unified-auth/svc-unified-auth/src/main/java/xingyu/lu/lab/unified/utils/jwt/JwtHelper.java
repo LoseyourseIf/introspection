@@ -8,7 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
-import xingyu.lu.lab.unified.utils.TwitterSnowflakeIdWorker;
+import xingyu.lu.lab.unified.utils.id.TwitterSnowflakeIdWorker;
 import xingyu.lu.lab.unified.utils.secure.SecureUtil;
 
 import java.security.NoSuchAlgorithmException;

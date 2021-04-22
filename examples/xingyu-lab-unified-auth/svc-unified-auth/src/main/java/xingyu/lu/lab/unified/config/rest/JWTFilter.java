@@ -4,7 +4,8 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.MediaType;
-import xingyu.lu.lab.unified.utils.resp.ResultModel;
+import xingyu.lu.lab.unified.utils.rest.ErrorConstants;
+import xingyu.lu.lab.unified.utils.rest.ResultModel;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
@@ -79,7 +80,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
             ServletOutputStream output = resp.getOutputStream();
             output.write(JSON.toJSONString(
-                    ResultModel.customError("401", "登录失效，请重新登录！"))
+                    ResultModel.customError(ErrorConstants.INVALID_TOKEN_CODE,
+                            ErrorConstants.INVALID_LOGIN_MSG))
                     .getBytes());
             output.flush();
         } catch (IOException e) {

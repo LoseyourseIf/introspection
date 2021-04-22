@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xingyu.lu.lab.unified.mapper.UnifiedAppKeysMapper">
+
+    <resultMap id="BaseResultMap" type="xingyu.lu.lab.unified.domain.UnifiedAppKeys">
+            <id property="unified_keypair_id" column="unified_keypair_id" jdbcType="BIGINT"/>
+            <result property="unified_app_id" column="unified_app_id" jdbcType="BIGINT"/>
+            <result property="app_pub_key" column="app_pub_key" jdbcType="VARCHAR"/>
+            <result property="app_pri_key" column="app_pri_key" jdbcType="VARCHAR"/>
+            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="create_by" column="create_by" jdbcType="BIGINT"/>
+            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="update_by" column="update_by" jdbcType="BIGINT"/>
+            <result property="enabled" column="enabled" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        unified_keypair_id,unified_app_id,app_pub_key,
+        app_pri_key,create_time,create_by,
+        update_time,update_by,enabled
+    </sql>
+</mapper>

@@ -1,4 +1,4 @@
-package xingyu.lu.lab.unified.utils.resp;
+package xingyu.lu.lab.unified.utils.rest;
 
 /**
  * (╯‵□′)╯︵┻━┻

@@ -1,4 +1,4 @@
-package xingyu.lu.lab.unified.utils;
+package xingyu.lu.lab.unified.utils.id;
 
 /**
  * Twitter的雪花算法

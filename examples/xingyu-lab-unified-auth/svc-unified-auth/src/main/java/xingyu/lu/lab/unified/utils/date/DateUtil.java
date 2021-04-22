@@ -1,4 +1,4 @@
-package xingyu.lu.lab.unified.utils;
+package xingyu.lu.lab.unified.utils.date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

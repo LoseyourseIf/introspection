@@ -40,10 +40,28 @@ spring:
       datasource:
         # 数据源配置
         auth-ds:
-          url: jdbc:mysql://127.0.0.1:3306/auth?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+          url: jdbc:mysql://127.0.0.1:3306/oauth?useSSL=false&useUnicode=true&characterEncoding=UTF-8
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
           password: Aa123456
+
+mybatis-plus:
+  # 扫描 mapper.xml
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  global-config:
+    # 关闭MP3.0自带的banner
+    banner: false
+#    主键类型  0:"数据库ID自增"
+#             1:"该类型为未设置主键类型"
+#             2:"用户输入ID"
+#             3:"全局唯一ID (数字类型唯一ID)"
+#             4:"全局唯一ID UUID",5:"字符串全局唯一ID (idWorker 的字符串表示)"
+#    db-config:
+#      id-type: 4
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
+
 
 logging:
   path: ./logs

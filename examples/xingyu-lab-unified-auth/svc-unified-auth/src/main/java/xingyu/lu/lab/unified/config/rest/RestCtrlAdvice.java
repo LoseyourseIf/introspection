@@ -1,29 +1,27 @@
 package xingyu.lu.lab.unified.config.rest;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.shiro.ShiroException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import xingyu.lu.lab.unified.utils.resp.ResultModel;
+import xingyu.lu.lab.unified.utils.rest.ResultModel;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Slf4j
 @RestControllerAdvice
 public class RestCtrlAdvice {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestCtrlAdvice.class);
 
     // 捕捉shiro的异常
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ShiroException.class)
     public ResultModel handleShiroException(ShiroException e) {
         e.printStackTrace();
-        LOGGER.error(ExceptionUtils.getMessage(e));
+        log.error(ExceptionUtils.getMessage(e));
         return ResultModel.commonError("Un Authorized!");
     }
 
@@ -31,8 +29,15 @@ public class RestCtrlAdvice {
     @ExceptionHandler(UnAuthorizedException.class)
     public ResultModel handleUnauthorizedException(UnAuthorizedException e) {
         e.printStackTrace();
-        LOGGER.error(ExceptionUtils.getMessage(e));
+        log.error(ExceptionUtils.getMessage(e));
         return ResultModel.commonError("Un Authorized!");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResultModel handleIllegalArgumentException(IllegalArgumentException e) {
+        e.printStackTrace();
+        return ResultModel.paramError();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -43,11 +48,11 @@ public class RestCtrlAdvice {
     }
 
     // 捕捉其他所有异常
-    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(Exception.class)
     public ResultModel handleExceptions(HttpServletRequest request, Throwable ex) {
         ex.printStackTrace();
-        LOGGER.error(ExceptionUtils.getMessage(ex));
+        log.error(ExceptionUtils.getMessage(ex));
         return ResultModel.customError(String.valueOf(getStatus(request).value()), ex.getMessage());
     }
 

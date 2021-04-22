@@ -1,8 +1,13 @@
 package xingyu.lu.lab.unified.api;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import xingyu.lu.lab.unified.utils.resp.ResultModel;
+import xingyu.lu.lab.unified.api.dto.LoginUserDTO;
+import xingyu.lu.lab.unified.service.UnifiedUserService;
+import xingyu.lu.lab.unified.utils.rest.ResultModel;
+
+import javax.annotation.Resource;
 
 /**
  * @author xingyu.lu
@@ -11,9 +16,12 @@ import xingyu.lu.lab.unified.utils.resp.ResultModel;
 @RestController
 public class LoginController {
 
+    @Resource
+    private UnifiedUserService unifiedUserService;
+
     @PostMapping(value = "/login")
-    public ResultModel unifiedLogin(){
-        return null;
+    public ResultModel unifiedLogin(@RequestBody LoginUserDTO dto) {
+        return unifiedUserService.unifiedLogin(dto);
     }
 
 }

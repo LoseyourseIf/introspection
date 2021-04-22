@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xingyu.lu.lab.unified.mapper.UnifiedCodeMapper">
+
+    <resultMap id="BaseResultMap" type="xingyu.lu.lab.unified.domain.UnifiedCode">
+            <id property="unified_code_id" column="unified_code_id" jdbcType="BIGINT"/>
+            <result property="unified_app_id" column="unified_app_id" jdbcType="BIGINT"/>
+            <result property="user_name" column="user_name" jdbcType="VARCHAR"/>
+            <result property="unified_code" column="unified_code" jdbcType="VARCHAR"/>
+            <result property="not_before" column="not_before" jdbcType="TIMESTAMP"/>
+            <result property="expire_at" column="expire_at" jdbcType="TIMESTAMP"/>
+            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="create_by" column="create_by" jdbcType="BIGINT"/>
+            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="update_by" column="update_by" jdbcType="BIGINT"/>
+            <result property="enabled" column="enabled" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        unified_code_id,unified_app_id,user_name,
+        unified_code,not_before,expire_at,
+        create_time,create_by,update_time,
+        update_by,enabled
+    </sql>
+</mapper>
