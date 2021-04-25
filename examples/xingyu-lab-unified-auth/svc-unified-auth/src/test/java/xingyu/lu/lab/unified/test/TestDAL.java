@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UnifiedAuthApplication.class)
-public class TestBatch {
+public class TestDAL {
 
     @Resource
     private UnifiedUserMapper unifiedUserMapper;

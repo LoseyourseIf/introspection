@@ -42,6 +42,18 @@ public class UnifiedCode implements Serializable {
     /**
      * 
      */
+    @TableField(value = "non_used")
+    private Boolean nonUsed;
+
+    /**
+     * 
+     */
+    @TableField(value = "non_confirm")
+    private Boolean nonConfirm;
+
+    /**
+     * 
+     */
     @TableField(value = "not_before")
     private Date notBefore;
 
@@ -100,6 +112,8 @@ public class UnifiedCode implements Serializable {
             && (this.getUnifiedAppId() == null ? other.getUnifiedAppId() == null : this.getUnifiedAppId().equals(other.getUnifiedAppId()))
             && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
             && (this.getUnifiedCode() == null ? other.getUnifiedCode() == null : this.getUnifiedCode().equals(other.getUnifiedCode()))
+            && (this.getNonUsed() == null ? other.getNonUsed() == null : this.getNonUsed().equals(other.getNonUsed()))
+            && (this.getNonConfirm() == null ? other.getNonConfirm() == null : this.getNonConfirm().equals(other.getNonConfirm()))
             && (this.getNotBefore() == null ? other.getNotBefore() == null : this.getNotBefore().equals(other.getNotBefore()))
             && (this.getExpireAt() == null ? other.getExpireAt() == null : this.getExpireAt().equals(other.getExpireAt()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
@@ -117,6 +131,8 @@ public class UnifiedCode implements Serializable {
         result = prime * result + ((getUnifiedAppId() == null) ? 0 : getUnifiedAppId().hashCode());
         result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
         result = prime * result + ((getUnifiedCode() == null) ? 0 : getUnifiedCode().hashCode());
+        result = prime * result + ((getNonUsed() == null) ? 0 : getNonUsed().hashCode());
+        result = prime * result + ((getNonConfirm() == null) ? 0 : getNonConfirm().hashCode());
         result = prime * result + ((getNotBefore() == null) ? 0 : getNotBefore().hashCode());
         result = prime * result + ((getExpireAt() == null) ? 0 : getExpireAt().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
@@ -137,6 +153,8 @@ public class UnifiedCode implements Serializable {
         sb.append(", unifiedAppId=").append(unifiedAppId);
         sb.append(", userName=").append(userName);
         sb.append(", unifiedCode=").append(unifiedCode);
+        sb.append(", nonUsed=").append(nonUsed);
+        sb.append(", nonConfirm=").append(nonConfirm);
         sb.append(", notBefore=").append(notBefore);
         sb.append(", expireAt=").append(expireAt);
         sb.append(", createTime=").append(createTime);

@@ -9,6 +9,8 @@
             <result property="unifiedAppId" column="unified_app_id" jdbcType="BIGINT"/>
             <result property="userName" column="user_name" jdbcType="VARCHAR"/>
             <result property="unifiedCode" column="unified_code" jdbcType="VARCHAR"/>
+            <result property="nonUsed" column="non_used" jdbcType="BOOLEAN"/>
+            <result property="nonConfirm" column="non_confirm" jdbcType="BOOLEAN"/>
             <result property="notBefore" column="not_before" jdbcType="TIMESTAMP"/>
             <result property="expireAt" column="expire_at" jdbcType="TIMESTAMP"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
@@ -20,8 +22,9 @@
 
     <sql id="Base_Column_List">
         unified_code_id,unified_app_id,user_name,
-        unified_code,not_before,expire_at,
-        create_time,create_by,update_time,
-        update_by,enabled
+        unified_code,non_used,non_confirm,
+        not_before,expire_at,create_time,
+        create_by,update_time,update_by,
+        enabled
     </sql>
 </mapper>
