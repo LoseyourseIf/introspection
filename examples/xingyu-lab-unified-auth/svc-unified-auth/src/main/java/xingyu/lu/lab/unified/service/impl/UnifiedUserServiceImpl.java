@@ -30,7 +30,7 @@ public class UnifiedUserServiceImpl extends ServiceImpl<UnifiedUserMapper, Unifi
 
     @DS(value = "auth-ds")
     @Override
-    public ResultModel unifiedLogin(LoginUserDTO dto) {
+    public ResultModel<UnifiedUser> unifiedLogin(LoginUserDTO dto) {
 
         QueryWrapper<UnifiedUser> queryWrapper = Wrappers.<UnifiedUser>query()
                 .eq("user_name", dto.getUserName())
