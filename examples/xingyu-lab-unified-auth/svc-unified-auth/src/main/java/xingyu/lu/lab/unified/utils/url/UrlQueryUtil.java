@@ -2,7 +2,6 @@ package xingyu.lu.lab.unified.utils.url;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -12,7 +11,11 @@ import java.util.Map;
 public class UrlQueryUtil {
 
     public static String jointQueryStrUrl(String url, Map<String, Object> queries) throws UnsupportedEncodingException {
-        StringBuilder sb = new StringBuilder(url);
+        return url + jointQueryStr(queries);
+    }
+
+    public static String jointQueryStr(Map<String, Object> queries) throws UnsupportedEncodingException {
+        StringBuilder sb = new StringBuilder();
         if (queries != null && queries.keySet().size() > 0) {
             boolean firstFlag = true;
             for (Map.Entry<String, Object> qEntry : queries.entrySet()) {

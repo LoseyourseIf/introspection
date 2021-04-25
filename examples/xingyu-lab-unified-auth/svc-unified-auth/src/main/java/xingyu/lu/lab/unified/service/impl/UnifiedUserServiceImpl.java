@@ -64,20 +64,24 @@ public class UnifiedUserServiceImpl extends ServiceImpl<UnifiedUserMapper, Unifi
         UnifiedAppKeys appKeys = unifiedAppKeysService.getUnifiedAppKeysById(appId);
         /*生成保存Code*/
         UnifiedCode code = unifiedCodeService.createAndSaveCode(dto);
-        /*Code签名串*/
-        String codeSign = SecureUtil.rsaEncryptByPrivate(appKeys.getAppPriKey(),
-                code.getUnifiedCode());
 
         /*构建重定向 URL */
         Map<String, Object> queries = dto.getReqParamMap();
-
         queries.put("code", code.getUnifiedCode());
-        queries.put("codeSign", codeSign);
+
+        String queryStr = UrlQueryUtil.jointQueryStr(queries);
+
+        /*参数签名*/
+        String platformSign = SecureUtil.rsaEncryptByPrivate(appKeys.getAppPriKey(),
+                queryStr);
+
+        queries.put("platformSign", platformSign);
+
         String redirectWithQueryStr = UrlQueryUtil.jointQueryStrUrl(redirectUrl, queries);
 
         CodeRedirectDTO result = CodeRedirectDTO.getInstance()
                 .setCode(code.getUnifiedCode())
-                .setCodeSign(codeSign)
+                .setCodeSign(platformSign)
                 .setRedirectUrl(redirectWithQueryStr);
 
         return ResultModel.success(result);
