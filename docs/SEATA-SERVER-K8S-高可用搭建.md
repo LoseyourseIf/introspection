@@ -270,7 +270,8 @@ metrics.exporterPrometheusPort=9898
 ###  使用命令行注册配置
 
 ```
-sh nacos/nacos-config.sh -h 101.101.101.2 -p 31396 -g SEATA_GROUP -t seata-ha -u nacos -w nacos
+sh nacos/nacos-config.sh -h 127.0.0.1 -p 8848 -g SEATA_GROUP -t seata-ha -u nacos -w
+ nacos
 
-sh nacos/nacos-config.sh -h 172.16.19.12 -p 32472 -g SEATA_GROUP -t seata-ha -u nacos -w nacos
+sh nacos/nacos-config.sh -h 127.0.0.1 -p 8848 -g SEATA_GROUP -t seata-ha -u nacos -w nacos
 ```
