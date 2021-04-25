@@ -37,6 +37,7 @@ public class LoginController {
 
         log.info("SEND_REDIRECT URL={}", result.getReturnValue().getRedirectUrl());
 
+        // TODO 打开注释
 //        if (result.isSuccess()) {
 //            response.sendRedirect(result.getReturnValue().getRedirectUrl());
 //        }
