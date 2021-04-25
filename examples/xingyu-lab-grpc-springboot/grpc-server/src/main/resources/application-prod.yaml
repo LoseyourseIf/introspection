@@ -11,4 +11,4 @@ spring:
 
 grpc:
   server:
-    port: 50101
+    port: 54321

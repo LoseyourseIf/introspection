@@ -15,6 +15,6 @@ grpc:
   client:
     grpc-server:
       address: 'discovery:///grpc-server'
-      #      address: 'dns:///grpc-server.namespace.svc.cluster.local:50101'
+      #      address: 'dns:///grpc-server.namespace.svc.cluster.local:54321'
       #      address: 'static://127.0.0.1:9991'
       enableKeepAlive: true

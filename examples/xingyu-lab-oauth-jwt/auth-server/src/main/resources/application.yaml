@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: http://101.101.101.2:31396
+        server-addr: http://127.0.0.1:8848
         namespace: mes-dev
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
