@@ -7,7 +7,7 @@ package xingyu.lu.lab.unified.api.dto;
 public class CodeRedirectDTO {
 
     private String code;
-    private String codeSign;
+    private String platformSign;
     private String redirectUrl;
 
     public String getCode() {
@@ -19,12 +19,12 @@ public class CodeRedirectDTO {
         return this;
     }
 
-    public String getCodeSign() {
-        return codeSign;
+    public String getPlatformSign() {
+        return platformSign;
     }
 
-    public CodeRedirectDTO setCodeSign(String codeSign) {
-        this.codeSign = codeSign;
+    public CodeRedirectDTO setPlatformSign(String platformSign) {
+        this.platformSign = platformSign;
         return this;
     }
 

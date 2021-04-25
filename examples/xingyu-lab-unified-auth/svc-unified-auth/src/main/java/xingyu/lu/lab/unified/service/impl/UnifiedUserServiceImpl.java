@@ -81,7 +81,7 @@ public class UnifiedUserServiceImpl extends ServiceImpl<UnifiedUserMapper, Unifi
 
         CodeRedirectDTO result = CodeRedirectDTO.getInstance()
                 .setCode(code.getUnifiedCode())
-                .setCodeSign(platformSign)
+                .setPlatformSign(platformSign)
                 .setRedirectUrl(redirectWithQueryStr);
 
         return ResultModel.success(result);
