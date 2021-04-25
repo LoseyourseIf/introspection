@@ -10,7 +10,7 @@ spring:
         server-addr: http://127.0.0.1:8848
         namespace: dev
   autoconfigure:
-    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure,com.github.pagehelper.autoconfigure.PageHelperAutoConfiguration
   datasource:
     druid:
       stat-view-servlet:
@@ -48,21 +48,11 @@ spring:
 mybatis-plus:
   # 扫描 mapper.xml
   mapper-locations: classpath:/mapper/*Mapper.xml
-  global-config:
-    # 关闭MP3.0自带的banner
-    banner: false
-#    主键类型  0:"数据库ID自增"
-#             1:"该类型为未设置主键类型"
-#             2:"用户输入ID"
-#             3:"全局唯一ID (数字类型唯一ID)"
-#             4:"全局唯一ID UUID",5:"字符串全局唯一ID (idWorker 的字符串表示)"
-#    db-config:
-#      id-type: 4
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    call-setters-on-nulls: true
-
 
 logging:
-  path: ./logs
   name: ${spring.application.name}
+  path: ./logs
+  level:
+    xingyu.lu.lab.unified.mapper.*.*: debug
+    org.springframework: info
+    root: info

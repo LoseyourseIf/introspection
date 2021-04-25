@@ -1,12 +1,12 @@
 package xingyu.lu.lab.unified.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 
@@ -19,73 +19,73 @@ public class UnifiedAccessToken implements Serializable {
      * 
      */
     @TableId(value = "unified_access_token_id")
-    private Long unified_access_token_id;
+    private Long unifiedAccessTokenId;
 
     /**
      * 
      */
     @TableField(value = "unified_app_id")
-    private Long unified_app_id;
+    private Long unifiedAppId;
 
     /**
      * 
      */
     @TableField(value = "access_token")
-    private String access_token;
+    private String accessToken;
 
     /**
      * 
      */
     @TableField(value = "refresh_token")
-    private String refresh_token;
+    private String refreshToken;
 
     /**
      * 
      */
     @TableField(value = "user_name")
-    private String user_name;
+    private String userName;
 
     /**
      * 
      */
     @TableField(value = "grant_type")
-    private String grant_type;
+    private String grantType;
 
     /**
      * 
      */
     @TableField(value = "not_before")
-    private Date not_before;
+    private Date notBefore;
 
     /**
      * 
      */
     @TableField(value = "expire_at")
-    private Date expire_at;
+    private Date expireAt;
 
     /**
      * 
      */
     @TableField(value = "create_time")
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 
      */
     @TableField(value = "create_by")
-    private Long create_by;
+    private Long createBy;
 
     /**
      * 
      */
     @TableField(value = "update_time")
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 
      */
     @TableField(value = "update_by")
-    private Long update_by;
+    private Long updateBy;
 
     /**
      * 
@@ -108,18 +108,18 @@ public class UnifiedAccessToken implements Serializable {
             return false;
         }
         UnifiedAccessToken other = (UnifiedAccessToken) that;
-        return (this.getUnified_access_token_id() == null ? other.getUnified_access_token_id() == null : this.getUnified_access_token_id().equals(other.getUnified_access_token_id()))
-            && (this.getUnified_app_id() == null ? other.getUnified_app_id() == null : this.getUnified_app_id().equals(other.getUnified_app_id()))
-            && (this.getAccess_token() == null ? other.getAccess_token() == null : this.getAccess_token().equals(other.getAccess_token()))
-            && (this.getRefresh_token() == null ? other.getRefresh_token() == null : this.getRefresh_token().equals(other.getRefresh_token()))
-            && (this.getUser_name() == null ? other.getUser_name() == null : this.getUser_name().equals(other.getUser_name()))
-            && (this.getGrant_type() == null ? other.getGrant_type() == null : this.getGrant_type().equals(other.getGrant_type()))
-            && (this.getNot_before() == null ? other.getNot_before() == null : this.getNot_before().equals(other.getNot_before()))
-            && (this.getExpire_at() == null ? other.getExpire_at() == null : this.getExpire_at().equals(other.getExpire_at()))
-            && (this.getCreate_time() == null ? other.getCreate_time() == null : this.getCreate_time().equals(other.getCreate_time()))
-            && (this.getCreate_by() == null ? other.getCreate_by() == null : this.getCreate_by().equals(other.getCreate_by()))
-            && (this.getUpdate_time() == null ? other.getUpdate_time() == null : this.getUpdate_time().equals(other.getUpdate_time()))
-            && (this.getUpdate_by() == null ? other.getUpdate_by() == null : this.getUpdate_by().equals(other.getUpdate_by()))
+        return (this.getUnifiedAccessTokenId() == null ? other.getUnifiedAccessTokenId() == null : this.getUnifiedAccessTokenId().equals(other.getUnifiedAccessTokenId()))
+            && (this.getUnifiedAppId() == null ? other.getUnifiedAppId() == null : this.getUnifiedAppId().equals(other.getUnifiedAppId()))
+            && (this.getAccessToken() == null ? other.getAccessToken() == null : this.getAccessToken().equals(other.getAccessToken()))
+            && (this.getRefreshToken() == null ? other.getRefreshToken() == null : this.getRefreshToken().equals(other.getRefreshToken()))
+            && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
+            && (this.getGrantType() == null ? other.getGrantType() == null : this.getGrantType().equals(other.getGrantType()))
+            && (this.getNotBefore() == null ? other.getNotBefore() == null : this.getNotBefore().equals(other.getNotBefore()))
+            && (this.getExpireAt() == null ? other.getExpireAt() == null : this.getExpireAt().equals(other.getExpireAt()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()))
             && (this.getEnabled() == null ? other.getEnabled() == null : this.getEnabled().equals(other.getEnabled()));
     }
 
@@ -127,18 +127,18 @@ public class UnifiedAccessToken implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getUnified_access_token_id() == null) ? 0 : getUnified_access_token_id().hashCode());
-        result = prime * result + ((getUnified_app_id() == null) ? 0 : getUnified_app_id().hashCode());
-        result = prime * result + ((getAccess_token() == null) ? 0 : getAccess_token().hashCode());
-        result = prime * result + ((getRefresh_token() == null) ? 0 : getRefresh_token().hashCode());
-        result = prime * result + ((getUser_name() == null) ? 0 : getUser_name().hashCode());
-        result = prime * result + ((getGrant_type() == null) ? 0 : getGrant_type().hashCode());
-        result = prime * result + ((getNot_before() == null) ? 0 : getNot_before().hashCode());
-        result = prime * result + ((getExpire_at() == null) ? 0 : getExpire_at().hashCode());
-        result = prime * result + ((getCreate_time() == null) ? 0 : getCreate_time().hashCode());
-        result = prime * result + ((getCreate_by() == null) ? 0 : getCreate_by().hashCode());
-        result = prime * result + ((getUpdate_time() == null) ? 0 : getUpdate_time().hashCode());
-        result = prime * result + ((getUpdate_by() == null) ? 0 : getUpdate_by().hashCode());
+        result = prime * result + ((getUnifiedAccessTokenId() == null) ? 0 : getUnifiedAccessTokenId().hashCode());
+        result = prime * result + ((getUnifiedAppId() == null) ? 0 : getUnifiedAppId().hashCode());
+        result = prime * result + ((getAccessToken() == null) ? 0 : getAccessToken().hashCode());
+        result = prime * result + ((getRefreshToken() == null) ? 0 : getRefreshToken().hashCode());
+        result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
+        result = prime * result + ((getGrantType() == null) ? 0 : getGrantType().hashCode());
+        result = prime * result + ((getNotBefore() == null) ? 0 : getNotBefore().hashCode());
+        result = prime * result + ((getExpireAt() == null) ? 0 : getExpireAt().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getUpdateBy() == null) ? 0 : getUpdateBy().hashCode());
         result = prime * result + ((getEnabled() == null) ? 0 : getEnabled().hashCode());
         return result;
     }
@@ -149,18 +149,18 @@ public class UnifiedAccessToken implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", unified_access_token_id=").append(unified_access_token_id);
-        sb.append(", unified_app_id=").append(unified_app_id);
-        sb.append(", access_token=").append(access_token);
-        sb.append(", refresh_token=").append(refresh_token);
-        sb.append(", user_name=").append(user_name);
-        sb.append(", grant_type=").append(grant_type);
-        sb.append(", not_before=").append(not_before);
-        sb.append(", expire_at=").append(expire_at);
-        sb.append(", create_time=").append(create_time);
-        sb.append(", create_by=").append(create_by);
-        sb.append(", update_time=").append(update_time);
-        sb.append(", update_by=").append(update_by);
+        sb.append(", unifiedAccessTokenId=").append(unifiedAccessTokenId);
+        sb.append(", unifiedAppId=").append(unifiedAppId);
+        sb.append(", accessToken=").append(accessToken);
+        sb.append(", refreshToken=").append(refreshToken);
+        sb.append(", userName=").append(userName);
+        sb.append(", grantType=").append(grantType);
+        sb.append(", notBefore=").append(notBefore);
+        sb.append(", expireAt=").append(expireAt);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", createBy=").append(createBy);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", updateBy=").append(updateBy);
         sb.append(", enabled=").append(enabled);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

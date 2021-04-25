@@ -5,16 +5,16 @@
 <mapper namespace="xingyu.lu.lab.unified.mapper.UnifiedCodeMapper">
 
     <resultMap id="BaseResultMap" type="xingyu.lu.lab.unified.domain.UnifiedCode">
-            <id property="unified_code_id" column="unified_code_id" jdbcType="BIGINT"/>
-            <result property="unified_app_id" column="unified_app_id" jdbcType="BIGINT"/>
-            <result property="user_name" column="user_name" jdbcType="VARCHAR"/>
-            <result property="unified_code" column="unified_code" jdbcType="VARCHAR"/>
-            <result property="not_before" column="not_before" jdbcType="TIMESTAMP"/>
-            <result property="expire_at" column="expire_at" jdbcType="TIMESTAMP"/>
-            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="create_by" column="create_by" jdbcType="BIGINT"/>
-            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="update_by" column="update_by" jdbcType="BIGINT"/>
+            <id property="unifiedCodeId" column="unified_code_id" jdbcType="BIGINT"/>
+            <result property="unifiedAppId" column="unified_app_id" jdbcType="BIGINT"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="unifiedCode" column="unified_code" jdbcType="VARCHAR"/>
+            <result property="notBefore" column="not_before" jdbcType="TIMESTAMP"/>
+            <result property="expireAt" column="expire_at" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="BIGINT"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="BIGINT"/>
             <result property="enabled" column="enabled" jdbcType="BOOLEAN"/>
     </resultMap>
 

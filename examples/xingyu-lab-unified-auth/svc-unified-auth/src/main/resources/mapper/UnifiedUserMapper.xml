@@ -5,15 +5,15 @@
 <mapper namespace="xingyu.lu.lab.unified.mapper.UnifiedUserMapper">
 
     <resultMap id="BaseResultMap" type="xingyu.lu.lab.unified.domain.UnifiedUser">
-            <id property="unified_user_id" column="unified_user_id" jdbcType="BIGINT"/>
-            <result property="user_name" column="user_name" jdbcType="VARCHAR"/>
-            <result property="user_pwd" column="user_pwd" jdbcType="VARCHAR"/>
-            <result property="non_locked" column="non_locked" jdbcType="BOOLEAN"/>
-            <result property="non_expired" column="non_expired" jdbcType="BOOLEAN"/>
-            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="create_by" column="create_by" jdbcType="BIGINT"/>
-            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="update_by" column="update_by" jdbcType="BIGINT"/>
+            <id property="unifiedUserId" column="unified_user_id" jdbcType="BIGINT"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="userPwd" column="user_pwd" jdbcType="VARCHAR"/>
+            <result property="nonLocked" column="non_locked" jdbcType="BOOLEAN"/>
+            <result property="nonExpired" column="non_expired" jdbcType="BOOLEAN"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="BIGINT"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="BIGINT"/>
             <result property="enabled" column="enabled" jdbcType="BOOLEAN"/>
     </resultMap>
 

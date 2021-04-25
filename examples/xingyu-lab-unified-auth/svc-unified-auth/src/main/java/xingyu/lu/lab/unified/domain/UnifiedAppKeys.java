@@ -1,12 +1,12 @@
 package xingyu.lu.lab.unified.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 
@@ -19,49 +19,49 @@ public class UnifiedAppKeys implements Serializable {
      * 
      */
     @TableId(value = "unified_keypair_id")
-    private Long unified_keypair_id;
+    private Long unifiedKeypairId;
 
     /**
      * 
      */
     @TableField(value = "unified_app_id")
-    private Long unified_app_id;
+    private Long unifiedAppId;
 
     /**
      * 
      */
     @TableField(value = "app_pub_key")
-    private String app_pub_key;
+    private String appPubKey;
 
     /**
      * 
      */
     @TableField(value = "app_pri_key")
-    private String app_pri_key;
+    private String appPriKey;
 
     /**
      * 
      */
     @TableField(value = "create_time")
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 
      */
     @TableField(value = "create_by")
-    private Long create_by;
+    private Long createBy;
 
     /**
      * 
      */
     @TableField(value = "update_time")
-    private Date update_time;
+    private Date updateTime;
 
     /**
      * 
      */
     @TableField(value = "update_by")
-    private Long update_by;
+    private Long updateBy;
 
     /**
      * 
@@ -84,14 +84,14 @@ public class UnifiedAppKeys implements Serializable {
             return false;
         }
         UnifiedAppKeys other = (UnifiedAppKeys) that;
-        return (this.getUnified_keypair_id() == null ? other.getUnified_keypair_id() == null : this.getUnified_keypair_id().equals(other.getUnified_keypair_id()))
-            && (this.getUnified_app_id() == null ? other.getUnified_app_id() == null : this.getUnified_app_id().equals(other.getUnified_app_id()))
-            && (this.getApp_pub_key() == null ? other.getApp_pub_key() == null : this.getApp_pub_key().equals(other.getApp_pub_key()))
-            && (this.getApp_pri_key() == null ? other.getApp_pri_key() == null : this.getApp_pri_key().equals(other.getApp_pri_key()))
-            && (this.getCreate_time() == null ? other.getCreate_time() == null : this.getCreate_time().equals(other.getCreate_time()))
-            && (this.getCreate_by() == null ? other.getCreate_by() == null : this.getCreate_by().equals(other.getCreate_by()))
-            && (this.getUpdate_time() == null ? other.getUpdate_time() == null : this.getUpdate_time().equals(other.getUpdate_time()))
-            && (this.getUpdate_by() == null ? other.getUpdate_by() == null : this.getUpdate_by().equals(other.getUpdate_by()))
+        return (this.getUnifiedKeypairId() == null ? other.getUnifiedKeypairId() == null : this.getUnifiedKeypairId().equals(other.getUnifiedKeypairId()))
+            && (this.getUnifiedAppId() == null ? other.getUnifiedAppId() == null : this.getUnifiedAppId().equals(other.getUnifiedAppId()))
+            && (this.getAppPubKey() == null ? other.getAppPubKey() == null : this.getAppPubKey().equals(other.getAppPubKey()))
+            && (this.getAppPriKey() == null ? other.getAppPriKey() == null : this.getAppPriKey().equals(other.getAppPriKey()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()))
             && (this.getEnabled() == null ? other.getEnabled() == null : this.getEnabled().equals(other.getEnabled()));
     }
 
@@ -99,14 +99,14 @@ public class UnifiedAppKeys implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getUnified_keypair_id() == null) ? 0 : getUnified_keypair_id().hashCode());
-        result = prime * result + ((getUnified_app_id() == null) ? 0 : getUnified_app_id().hashCode());
-        result = prime * result + ((getApp_pub_key() == null) ? 0 : getApp_pub_key().hashCode());
-        result = prime * result + ((getApp_pri_key() == null) ? 0 : getApp_pri_key().hashCode());
-        result = prime * result + ((getCreate_time() == null) ? 0 : getCreate_time().hashCode());
-        result = prime * result + ((getCreate_by() == null) ? 0 : getCreate_by().hashCode());
-        result = prime * result + ((getUpdate_time() == null) ? 0 : getUpdate_time().hashCode());
-        result = prime * result + ((getUpdate_by() == null) ? 0 : getUpdate_by().hashCode());
+        result = prime * result + ((getUnifiedKeypairId() == null) ? 0 : getUnifiedKeypairId().hashCode());
+        result = prime * result + ((getUnifiedAppId() == null) ? 0 : getUnifiedAppId().hashCode());
+        result = prime * result + ((getAppPubKey() == null) ? 0 : getAppPubKey().hashCode());
+        result = prime * result + ((getAppPriKey() == null) ? 0 : getAppPriKey().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getUpdateBy() == null) ? 0 : getUpdateBy().hashCode());
         result = prime * result + ((getEnabled() == null) ? 0 : getEnabled().hashCode());
         return result;
     }
@@ -117,14 +117,14 @@ public class UnifiedAppKeys implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", unified_keypair_id=").append(unified_keypair_id);
-        sb.append(", unified_app_id=").append(unified_app_id);
-        sb.append(", app_pub_key=").append(app_pub_key);
-        sb.append(", app_pri_key=").append(app_pri_key);
-        sb.append(", create_time=").append(create_time);
-        sb.append(", create_by=").append(create_by);
-        sb.append(", update_time=").append(update_time);
-        sb.append(", update_by=").append(update_by);
+        sb.append(", unifiedKeypairId=").append(unifiedKeypairId);
+        sb.append(", unifiedAppId=").append(unifiedAppId);
+        sb.append(", appPubKey=").append(appPubKey);
+        sb.append(", appPriKey=").append(appPriKey);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", createBy=").append(createBy);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", updateBy=").append(updateBy);
         sb.append(", enabled=").append(enabled);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

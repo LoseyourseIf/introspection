@@ -1,6 +1,6 @@
 package xingyu.lu.lab.unified.utils.rest;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,7 +33,7 @@ public class Paging<T> implements Serializable {
      */
     private Long total;
 
-    public static <T> Paging<T> obtainPaging(Page<T> page, List<T> data) {
+    public static <T> Paging<T> obtainPaging(PageInfo<T> page, List<T> data) {
 
         Paging<T> paging = new Paging<>();
         paging.setData(data);

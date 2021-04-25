@@ -5,14 +5,14 @@
 <mapper namespace="xingyu.lu.lab.unified.mapper.UnifiedAppKeysMapper">
 
     <resultMap id="BaseResultMap" type="xingyu.lu.lab.unified.domain.UnifiedAppKeys">
-            <id property="unified_keypair_id" column="unified_keypair_id" jdbcType="BIGINT"/>
-            <result property="unified_app_id" column="unified_app_id" jdbcType="BIGINT"/>
-            <result property="app_pub_key" column="app_pub_key" jdbcType="VARCHAR"/>
-            <result property="app_pri_key" column="app_pri_key" jdbcType="VARCHAR"/>
-            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="create_by" column="create_by" jdbcType="BIGINT"/>
-            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="update_by" column="update_by" jdbcType="BIGINT"/>
+            <id property="unifiedKeypairId" column="unified_keypair_id" jdbcType="BIGINT"/>
+            <result property="unifiedAppId" column="unified_app_id" jdbcType="BIGINT"/>
+            <result property="appPubKey" column="app_pub_key" jdbcType="VARCHAR"/>
+            <result property="appPriKey" column="app_pri_key" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="BIGINT"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="BIGINT"/>
             <result property="enabled" column="enabled" jdbcType="BOOLEAN"/>
     </resultMap>
 

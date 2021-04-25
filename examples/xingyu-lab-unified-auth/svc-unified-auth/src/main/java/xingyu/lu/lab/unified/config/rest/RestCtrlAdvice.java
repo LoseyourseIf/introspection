@@ -33,6 +33,7 @@ public class RestCtrlAdvice {
         return ResultModel.commonError("Un Authorized!");
     }
 
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ResultModel handleIllegalArgumentException(IllegalArgumentException e) {

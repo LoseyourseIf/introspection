@@ -10,6 +10,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * (╯‵□′)╯︵┻━┻
@@ -23,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AuthRealm extends AuthorizingRealm {
 
+//    @Lazy
 //    @Resource
 //    private UserService userService;
 //

@@ -5,18 +5,18 @@
 <mapper namespace="xingyu.lu.lab.unified.mapper.UnifiedAccessTokenMapper">
 
     <resultMap id="BaseResultMap" type="xingyu.lu.lab.unified.domain.UnifiedAccessToken">
-            <id property="unified_access_token_id" column="unified_access_token_id" jdbcType="BIGINT"/>
-            <result property="unified_app_id" column="unified_app_id" jdbcType="BIGINT"/>
-            <result property="access_token" column="access_token" jdbcType="VARCHAR"/>
-            <result property="refresh_token" column="refresh_token" jdbcType="VARCHAR"/>
-            <result property="user_name" column="user_name" jdbcType="VARCHAR"/>
-            <result property="grant_type" column="grant_type" jdbcType="VARCHAR"/>
-            <result property="not_before" column="not_before" jdbcType="TIMESTAMP"/>
-            <result property="expire_at" column="expire_at" jdbcType="TIMESTAMP"/>
-            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="create_by" column="create_by" jdbcType="BIGINT"/>
-            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="update_by" column="update_by" jdbcType="BIGINT"/>
+            <id property="unifiedAccessTokenId" column="unified_access_token_id" jdbcType="BIGINT"/>
+            <result property="unifiedAppId" column="unified_app_id" jdbcType="BIGINT"/>
+            <result property="accessToken" column="access_token" jdbcType="VARCHAR"/>
+            <result property="refreshToken" column="refresh_token" jdbcType="VARCHAR"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="grantType" column="grant_type" jdbcType="VARCHAR"/>
+            <result property="notBefore" column="not_before" jdbcType="TIMESTAMP"/>
+            <result property="expireAt" column="expire_at" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="createBy" column="create_by" jdbcType="BIGINT"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="BIGINT"/>
             <result property="enabled" column="enabled" jdbcType="BOOLEAN"/>
     </resultMap>
 

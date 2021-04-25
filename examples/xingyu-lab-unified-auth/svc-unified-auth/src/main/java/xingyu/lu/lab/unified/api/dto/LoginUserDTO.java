@@ -2,6 +2,8 @@ package xingyu.lu.lab.unified.api.dto;
 
 import lombok.Data;
 import lombok.NonNull;
+import xingyu.lu.lab.unified.domain.UnifiedCode;
+import xingyu.lu.lab.unified.domain.UnifiedUser;
 
 /**
  * @author xingyu.lu
@@ -9,9 +11,13 @@ import lombok.NonNull;
  **/
 @Data
 public class LoginUserDTO {
+
     @NonNull
     private String userName;
     @NonNull
     private String password;
+
     private String appId;
+
+    private String redirectUrl;
 }
