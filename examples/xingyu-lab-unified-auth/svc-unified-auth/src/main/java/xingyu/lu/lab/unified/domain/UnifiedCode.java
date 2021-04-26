@@ -30,6 +30,12 @@ public class UnifiedCode implements Serializable {
     /**
      * 
      */
+    @TableField(value = "unified_user_id")
+    private Long unifiedUserId;
+
+    /**
+     * 
+     */
     @TableField(value = "user_name")
     private String userName;
 
@@ -110,6 +116,7 @@ public class UnifiedCode implements Serializable {
         UnifiedCode other = (UnifiedCode) that;
         return (this.getUnifiedCodeId() == null ? other.getUnifiedCodeId() == null : this.getUnifiedCodeId().equals(other.getUnifiedCodeId()))
             && (this.getUnifiedAppId() == null ? other.getUnifiedAppId() == null : this.getUnifiedAppId().equals(other.getUnifiedAppId()))
+            && (this.getUnifiedUserId() == null ? other.getUnifiedUserId() == null : this.getUnifiedUserId().equals(other.getUnifiedUserId()))
             && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
             && (this.getUnifiedCode() == null ? other.getUnifiedCode() == null : this.getUnifiedCode().equals(other.getUnifiedCode()))
             && (this.getNonUsed() == null ? other.getNonUsed() == null : this.getNonUsed().equals(other.getNonUsed()))
@@ -129,6 +136,7 @@ public class UnifiedCode implements Serializable {
         int result = 1;
         result = prime * result + ((getUnifiedCodeId() == null) ? 0 : getUnifiedCodeId().hashCode());
         result = prime * result + ((getUnifiedAppId() == null) ? 0 : getUnifiedAppId().hashCode());
+        result = prime * result + ((getUnifiedUserId() == null) ? 0 : getUnifiedUserId().hashCode());
         result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
         result = prime * result + ((getUnifiedCode() == null) ? 0 : getUnifiedCode().hashCode());
         result = prime * result + ((getNonUsed() == null) ? 0 : getNonUsed().hashCode());
@@ -151,6 +159,7 @@ public class UnifiedCode implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", unifiedCodeId=").append(unifiedCodeId);
         sb.append(", unifiedAppId=").append(unifiedAppId);
+        sb.append(", unifiedUserId=").append(unifiedUserId);
         sb.append(", userName=").append(userName);
         sb.append(", unifiedCode=").append(unifiedCode);
         sb.append(", nonUsed=").append(nonUsed);

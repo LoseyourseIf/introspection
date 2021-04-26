@@ -397,4 +397,43 @@ public class SecureUtil {
     }
 
 
+    /**
+     * 数据签名验签
+     * 数字签名算法 "SHA1withRSA"
+     *
+     * @param publicKey 公钥
+     * @param data      数据
+     * @param signData  验签数据
+     */
+    public static boolean verifySHA256withRSA(String publicKey, String data, String signData) throws NoSuchAlgorithmException,
+            InvalidKeyException, SignatureException, InvalidKeySpecException {
+
+        Signature signature = Signature.getInstance("SHA256withRSA");
+
+        signature.initVerify(getPublicKeyFromString(publicKey));
+
+        signature.update(hexStringToBytes(data));
+
+        return signature.verify(hexStringToBytes(signData));
+    }
+
+    /**
+     * 进行数字签名
+     * 数字签名算法 "SHA1withRSA"
+     *
+     * @param privateKey 私钥
+     * @param data       签名数据
+     */
+    public static String signSHA256withRSA(String privateKey, String data) throws NoSuchAlgorithmException,
+            InvalidKeyException, SignatureException, InvalidKeySpecException {
+
+        Signature signature = Signature.getInstance("SHA256withRSA");
+
+        signature.initSign(getPrivateKeyFromString(privateKey));
+
+        signature.update(hexStringToBytes(data));
+
+        return bytesToHexString(signature.sign());
+    }
+
 }

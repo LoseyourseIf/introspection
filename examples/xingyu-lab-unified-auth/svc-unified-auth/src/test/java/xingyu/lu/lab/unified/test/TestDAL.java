@@ -42,7 +42,7 @@ public class TestDAL {
 
     /**
      * (╯‵□′)╯︵┻━┻
-     * <p> pageHelper 分页测试 </p>
+     * <p> PageHelper 分页测试 </p>
      *
      * @author xingyu.lu
      * @date 2021/4/23 15:25

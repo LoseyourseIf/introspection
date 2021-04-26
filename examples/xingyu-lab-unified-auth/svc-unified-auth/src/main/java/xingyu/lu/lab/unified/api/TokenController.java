@@ -10,16 +10,16 @@ import xingyu.lu.lab.unified.utils.rest.ResultModel;
  * @create 2021-04-16 11:20
  **/
 @RestController
-@RequestMapping("/oauth")
+@RequestMapping("/token")
 public class TokenController {
 
-    @PostMapping("/token")
-    public ResultModel getAccessToken(){
+    @PostMapping("/get")
+    public ResultModel getAccessToken() {
         return null;
     }
 
-    @PostMapping("/check_token")
-    public ResultModel refreshToken(){
+    @PostMapping("/check")
+    public ResultModel refreshToken() {
         return null;
     }
 

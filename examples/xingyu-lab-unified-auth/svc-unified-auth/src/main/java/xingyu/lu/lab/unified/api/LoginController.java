@@ -1,13 +1,12 @@
 package xingyu.lu.lab.unified.api;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.WebUtils;
-import xingyu.lu.lab.unified.api.dto.CodeRedirectDTO;
-import xingyu.lu.lab.unified.api.dto.LoginUserDTO;
+import xingyu.lu.lab.unified.api.dto.BizRedirectDTO;
+import xingyu.lu.lab.unified.api.dto.AuthUserDTO;
 import xingyu.lu.lab.unified.service.UnifiedUserService;
 import xingyu.lu.lab.unified.utils.rest.ResultModel;
 
@@ -28,12 +27,15 @@ public class LoginController {
     private UnifiedUserService unifiedUserService;
 
     @PostMapping(value = "/login")
-    public ResultModel<CodeRedirectDTO> unifiedLogin(@RequestBody LoginUserDTO dto, HttpServletRequest request,
-                                                     HttpServletResponse response) throws Exception {
+    public ResultModel<BizRedirectDTO> unifiedLogin(@RequestBody AuthUserDTO dto,
+                                                    HttpServletRequest request,
+                                                    HttpServletResponse response) throws Exception {
+
         Map<String, Object> reqParamMap = WebUtils.getParametersStartingWith(request, "");
+
         dto.setReqParamMap(reqParamMap);
 
-        ResultModel<CodeRedirectDTO> result = unifiedUserService.unifiedLogin(dto);
+        ResultModel<BizRedirectDTO> result = unifiedUserService.unifiedLogin(dto);
 
         log.info("SEND_REDIRECT URL={}", result.getReturnValue().getRedirectUrl());
 

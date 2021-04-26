@@ -7,6 +7,7 @@
     <resultMap id="BaseResultMap" type="xingyu.lu.lab.unified.domain.UnifiedCode">
             <id property="unifiedCodeId" column="unified_code_id" jdbcType="BIGINT"/>
             <result property="unifiedAppId" column="unified_app_id" jdbcType="BIGINT"/>
+            <result property="unifiedUserId" column="unified_user_id" jdbcType="BIGINT"/>
             <result property="userName" column="user_name" jdbcType="VARCHAR"/>
             <result property="unifiedCode" column="unified_code" jdbcType="VARCHAR"/>
             <result property="nonUsed" column="non_used" jdbcType="BOOLEAN"/>
@@ -21,10 +22,10 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        unified_code_id,unified_app_id,user_name,
-        unified_code,non_used,non_confirm,
-        not_before,expire_at,create_time,
-        create_by,update_time,update_by,
-        enabled
+        unified_code_id,unified_app_id,unified_user_id,
+        user_name,unified_code,non_used,
+        non_confirm,not_before,expire_at,
+        create_time,create_by,update_time,
+        update_by,enabled
     </sql>
 </mapper>
