@@ -1,7 +1,11 @@
 package xingyu.lu.lab.unified.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import xingyu.lu.lab.unified.api.dto.AuthCodeGrantDTO;
 import xingyu.lu.lab.unified.api.dto.AuthUserDTO;
+import xingyu.lu.lab.unified.domain.UnifiedAppKeys;
 import xingyu.lu.lab.unified.domain.UnifiedCode;
 import xingyu.lu.lab.unified.service.UnifiedCodeService;
 import xingyu.lu.lab.unified.mapper.UnifiedCodeMapper;
@@ -46,6 +50,20 @@ public class UnifiedCodeServiceImpl extends ServiceImpl<UnifiedCodeMapper, Unifi
         } else {
             return null;
         }
+    }
+
+
+    @Override
+    public UnifiedCode getUnifiedAuthCode(AuthCodeGrantDTO dto) {
+
+        QueryWrapper<UnifiedCode> codeQueryWrapper = Wrappers.<UnifiedCode>query()
+                .eq("unified_app_id", dto.getAppId())
+                .eq("unified_user_id", dto.getUnifiedUserId())
+                .eq("unified_code", dto.getCode())
+                .eq("enabled", 1);
+
+
+        return unifiedCodeMapper.selectOne(codeQueryWrapper);
     }
 }
 

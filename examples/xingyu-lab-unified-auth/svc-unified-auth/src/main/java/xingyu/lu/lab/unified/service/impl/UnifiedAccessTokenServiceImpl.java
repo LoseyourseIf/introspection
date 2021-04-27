@@ -5,12 +5,15 @@ import xingyu.lu.lab.unified.api.dto.AuthCodeGrantDTO;
 import xingyu.lu.lab.unified.api.dto.AuthDataChecker;
 import xingyu.lu.lab.unified.domain.UnifiedAccessToken;
 import xingyu.lu.lab.unified.domain.UnifiedAppKeys;
+import xingyu.lu.lab.unified.domain.UnifiedCode;
+import xingyu.lu.lab.unified.domain.UnifiedUser;
 import xingyu.lu.lab.unified.service.UnifiedAccessTokenService;
 import xingyu.lu.lab.unified.mapper.UnifiedAccessTokenMapper;
 import org.springframework.stereotype.Service;
 import xingyu.lu.lab.unified.service.UnifiedAppKeysService;
 import xingyu.lu.lab.unified.service.UnifiedCodeService;
 import xingyu.lu.lab.unified.service.UnifiedUserService;
+import xingyu.lu.lab.unified.utils.jwt.JwtHelper;
 import xingyu.lu.lab.unified.utils.rest.ResultModel;
 import xingyu.lu.lab.unified.utils.secure.SecureUtil;
 import xingyu.lu.lab.unified.utils.url.UrlQueryUtil;
@@ -29,6 +32,8 @@ public class UnifiedAccessTokenServiceImpl extends ServiceImpl<UnifiedAccessToke
     private UnifiedAppKeysService unifiedAppKeysService;
     @Resource
     private UnifiedCodeService unifiedCodeService;
+    @Resource
+    private UnifiedUserService unifiedUserService;
 
     @Override
     public ResultModel tokenGrantByCode(AuthCodeGrantDTO dto) throws Exception {
@@ -39,6 +44,15 @@ public class UnifiedAccessTokenServiceImpl extends ServiceImpl<UnifiedAccessToke
 
         ResultModel keyCheckResult = AuthDataChecker.checkAppKeys(unifiedAppKeys);
         if (!keyCheckResult.isSuccess()) {
+            return keyCheckResult;
+        }
+
+        //USER CHECK
+        dto.getUnifiedUserId();
+        UnifiedUser unifiedUser = unifiedUserService.getById(dto.getUnifiedUserId());
+
+        ResultModel userCheckResult = AuthDataChecker.checkUser(unifiedUser);
+        if (!userCheckResult.isSuccess()) {
             return keyCheckResult;
         }
 
@@ -53,16 +67,22 @@ public class UnifiedAccessTokenServiceImpl extends ServiceImpl<UnifiedAccessToke
         }
 
         //CODE CHECK
-        String code = dto.getCode();
+        UnifiedCode unifiedCode = unifiedCodeService.getUnifiedAuthCode(dto);
+        ResultModel codeCheckResult = AuthDataChecker.checkCode(unifiedCode);
+        if (!codeCheckResult.isSuccess()) {
+            return codeCheckResult;
+        }
 
-
-        //USER CHECK
-        dto.getUnifiedUserId();
 
         //TODO AUTH GET 该用户该App下权限集合
 
+
+
+
         //JWT CREATE Access_Token Refresh_Token
-        //CODE DELETE
+        //JWT withClaim 签发 接收 app 用户 角色 系统权限 菜单权限 按钮权限 数据权限 过期时间
+        //CODE USED
+
 
 
         return null;

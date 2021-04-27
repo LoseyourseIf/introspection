@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
+import xingyu.lu.lab.unified.utils.date.DateUtil;
 import xingyu.lu.lab.unified.utils.id.TwitterSnowflakeIdWorker;
 import xingyu.lu.lab.unified.utils.secure.SecureUtil;
 
@@ -15,6 +16,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -38,8 +41,8 @@ public class JwtHelper {
         try {
             JWTVerifier verifier = JWT.require(algorithm)
                     .withAudience("A")
+                    .withIssuer("Issuer")
                     .withClaim("A", 1)
-                    .withIssuer("auth0")
                     .build(); //Reusable verifier instance
             jwt = verifier.verify(token);
             return jwt;
@@ -69,8 +72,9 @@ public class JwtHelper {
             return JWT.create()
                     .withKeyId("client_id")
                     .withAudience("A")
-                    .withClaim("A", 1)
                     .withIssuer("auth0")
+                    .withExpiresAt(DateUtil.dateAdd(new Date(),Calendar.HOUR,2))
+                    .withClaim("A", 1)
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             //Invalid Signing configuration / Couldn't convert Claims.
@@ -83,7 +87,7 @@ public class JwtHelper {
      * 注册 AppName 生成 AppId
      * <p>TwitterSnowflakeIdWorker 推特雪花算法生成自增ID</p>
      * 根据 AppId 生成 RSA 秘钥
-     * <p>SecureUtil ID 作为 RSA 秘钥 Seed </p>
+     * <p>TwitterSnowflakeIdWorker 作为 RSA 秘钥 Seed </p>
      * 分配 AppId 公钥 AppKey
      * <p>RSAKeyPair pubKey priKey</p>
      * Client 使用 AppId SignWithAppKey 请求 AuthCode

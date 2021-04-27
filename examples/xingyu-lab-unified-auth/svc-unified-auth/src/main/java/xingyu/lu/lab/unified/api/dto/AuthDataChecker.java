@@ -2,6 +2,7 @@ package xingyu.lu.lab.unified.api.dto;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import xingyu.lu.lab.unified.domain.UnifiedAppKeys;
+import xingyu.lu.lab.unified.domain.UnifiedCode;
 import xingyu.lu.lab.unified.domain.UnifiedUser;
 import xingyu.lu.lab.unified.utils.rest.ResultModel;
 
@@ -33,6 +34,19 @@ public class AuthDataChecker {
             return ResultModel.commonError("未设置应用程序秘钥！");
         }
         return ResultModel.success(appKeys);
+    }
+
+    public static ResultModel checkCode(UnifiedCode code) {
+        if (null == code || StringUtils.isBlank(code.getUnifiedCode())) {
+            return ResultModel.commonError("认证Code错误！");
+        } else if (System.currentTimeMillis() > code.getExpireAt().getTime()) {
+            return ResultModel.commonError("认证Code已过期，请重新认证！");
+        } else if (!code.getNonUsed()) {
+            return ResultModel.commonError("认证Code已被使用，请重新认证！");
+        } else if (code.getNonConfirm()) {
+            return ResultModel.commonError("认证需用户手动授权！");
+        }
+        return ResultModel.success(code);
     }
 
 }
