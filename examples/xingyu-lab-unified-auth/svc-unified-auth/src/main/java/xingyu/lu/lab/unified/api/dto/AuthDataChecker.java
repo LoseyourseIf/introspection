@@ -13,7 +13,7 @@ import xingyu.lu.lab.unified.utils.rest.ResultModel;
 public class AuthDataChecker {
 
 
-    public static ResultModel checkUser(UnifiedUser user) {
+    public static ResultModel<Object> checkUser(UnifiedUser user) {
         if (null == user) {
             return ResultModel.commonError("用户账户名或密码错误！");
         } else if (!user.getNonExpired()) {

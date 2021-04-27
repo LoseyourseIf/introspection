@@ -90,11 +90,11 @@ public class UnifiedUserServiceImpl extends ServiceImpl<UnifiedUserMapper, Unifi
 
         String redirectWithQueryStr = redirectUrl + queries;
 
-        BizRedirectDTO result = BizRedirectDTO.getInstance()
-                .setCode(code.getUnifiedCode())
-                .setRequireConfirm(false)
-                .setPlatformSign(sign)
-                .setRedirectUrl(redirectWithQueryStr);
+        BizRedirectDTO result = BizRedirectDTO.builder()
+                .code(code.getUnifiedCode())
+                .requireConfirm(false)
+                .platformSign(sign)
+                .redirectUrl(redirectWithQueryStr).build();
 
         return ResultModel.success(result);
     }

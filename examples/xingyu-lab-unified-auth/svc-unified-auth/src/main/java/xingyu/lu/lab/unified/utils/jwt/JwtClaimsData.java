@@ -1,5 +1,10 @@
 package xingyu.lu.lab.unified.utils.jwt;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +12,11 @@ import java.util.List;
  * @author xingyu.lu
  * @create 2021-04-27 16:59
  **/
-public class JwtClaimsBuilder {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class JwtClaimsData {
 
     /*APP KEY ID*/
     private long keyId;
@@ -29,6 +38,5 @@ public class JwtClaimsBuilder {
     private List<String> menuPrivileges;
     private List<String> btnPrivileges;
     private List<String> dataPrivileges;
-
 
 }

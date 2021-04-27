@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import xingyu.lu.lab.unified.service.UnifiedAppKeysService;
 import xingyu.lu.lab.unified.service.UnifiedCodeService;
 import xingyu.lu.lab.unified.service.UnifiedUserService;
+import xingyu.lu.lab.unified.utils.jwt.JwtClaimsData;
 import xingyu.lu.lab.unified.utils.jwt.JwtHelper;
 import xingyu.lu.lab.unified.utils.rest.ResultModel;
 import xingyu.lu.lab.unified.utils.secure.SecureUtil;
@@ -76,13 +77,24 @@ public class UnifiedAccessTokenServiceImpl extends ServiceImpl<UnifiedAccessToke
 
         //TODO AUTH GET 该用户该App下权限集合
 
-
+        JwtClaimsData claimsData = JwtClaimsData.builder()
+                .keyId(0)
+                .issuer("")
+                .audience("")
+                .unifiedAppId(0)
+                .unifiedUserId(0)
+                .unifiedUserName("")
+                .userRoles(null)
+                .sysPrivileges(null)
+                .menuPrivileges(null)
+                .btnPrivileges(null)
+                .dataPrivileges(null)
+                .build();
 
 
         //JWT CREATE Access_Token Refresh_Token
         //JWT withClaim 签发 接收 app 用户 角色 系统权限 菜单权限 按钮权限 数据权限 过期时间
         //CODE USED
-
 
 
         return null;
