@@ -136,7 +136,6 @@ public class UnifiedAccessTokenServiceImpl extends ServiceImpl<UnifiedAccessToke
 
         int result = unifiedAccessTokenMapper.insert(unifiedToken);
         if (result > 0 && 0 != unifiedToken.getUnifiedAccessTokenId()) {
-
             return ResultModel.success(unifiedToken);
         } else {
             return ResultModel.serverError();
