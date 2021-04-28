@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import xingyu.lu.lab.unified.service.UnifiedAppKeysService;
 import xingyu.lu.lab.unified.service.UnifiedCodeService;
 import xingyu.lu.lab.unified.service.UnifiedUserService;
-import xingyu.lu.lab.unified.utils.jwt.JwtClaimsData;
-import xingyu.lu.lab.unified.utils.jwt.JwtHelper;
+import xingyu.lu.lab.unified.utils.jwt.JWTClaimsData;
+import xingyu.lu.lab.unified.utils.jwt.JWTConstant;
+import xingyu.lu.lab.unified.utils.jwt.JWTHelper;
+import xingyu.lu.lab.unified.utils.jwt.JWTStrPerms;
+import xingyu.lu.lab.unified.utils.map.MPUtil;
 import xingyu.lu.lab.unified.utils.rest.ResultModel;
 import xingyu.lu.lab.unified.utils.secure.SecureUtil;
 import xingyu.lu.lab.unified.utils.url.UrlQueryUtil;
@@ -35,6 +38,9 @@ public class UnifiedAccessTokenServiceImpl extends ServiceImpl<UnifiedAccessToke
     private UnifiedCodeService unifiedCodeService;
     @Resource
     private UnifiedUserService unifiedUserService;
+    @Resource
+    private UnifiedAccessTokenMapper unifiedAccessTokenMapper;
+
 
     @Override
     public ResultModel tokenGrantByCode(AuthCodeGrantDTO dto) throws Exception {
@@ -59,7 +65,7 @@ public class UnifiedAccessTokenServiceImpl extends ServiceImpl<UnifiedAccessToke
 
         //SIGN CHECK
         String appSign = dto.getSign();
-        Map<String, Object> pojoMap = UrlQueryUtil.pojo2Map(dto);
+        Map<String, Object> pojoMap = MPUtil.pojo2Map(dto);
         pojoMap.remove("sign");
         String queryStr = UrlQueryUtil.jointQueryStr(pojoMap);
         String decrypt = SecureUtil.rsaDecryptByPrivate(unifiedAppKeys.getAppPriKey(), appSign);
@@ -70,34 +76,71 @@ public class UnifiedAccessTokenServiceImpl extends ServiceImpl<UnifiedAccessToke
         //CODE CHECK
         UnifiedCode unifiedCode = unifiedCodeService.getUnifiedAuthCode(dto);
         ResultModel codeCheckResult = AuthDataChecker.checkCode(unifiedCode);
+
+        unifiedCode.setNonUsed(false);
+        unifiedCode.setEnabled(false);
+        //CODE USED
+        boolean codeDelResult = unifiedCodeService.saveOrUpdate(unifiedCode);
+
+        if (!codeDelResult) {
+            return ResultModel.serverError();
+        }
+
         if (!codeCheckResult.isSuccess()) {
             return codeCheckResult;
         }
 
+        //TODO AUTH GET 该用户该App下权限集合 配合权限框架使用
 
-        //TODO AUTH GET 该用户该App下权限集合
-
-        JwtClaimsData claimsData = JwtClaimsData.builder()
-                .keyId(0)
-                .issuer("")
-                .audience("")
-                .unifiedAppId(0)
-                .unifiedUserId(0)
-                .unifiedUserName("")
+        JWTStrPerms strPerms = JWTStrPerms.builder()
                 .userRoles(null)
-                .sysPrivileges(null)
-                .menuPrivileges(null)
-                .btnPrivileges(null)
-                .dataPrivileges(null)
+                .sysStrPermissions(null)
+                .menuStrPermissions(null)
+                .btnStrPermissions(null)
+                .dataStrPermissions(null)
                 .build();
 
+        //JWT withClaim 签发 接收 app 用户 角色 系统权限 菜单权限 按钮权限 数据权限
+        JWTClaimsData accessTokenClaim = JWTClaimsData.builder()
+                .keyId(unifiedAppKeys.getUnifiedKeypairId())
+                .issuer("").audience("")
+                .tokenType(JWTConstant.ACCESS_TOKEN)
+                .unifiedAppId(unifiedAppKeys.getUnifiedAppId())
+                .unifiedUserId(unifiedUser.getUnifiedUserId())
+                .unifiedUserName(unifiedUser.getUserName())
+                .strPerms(strPerms)
+                .build();
 
-        //JWT CREATE Access_Token Refresh_Token
-        //JWT withClaim 签发 接收 app 用户 角色 系统权限 菜单权限 按钮权限 数据权限 过期时间
-        //CODE USED
+        //JWT CREATE Access_Token
+        String accessToken = JWTHelper.buildToken(unifiedAppKeys.getAppPubKey(),
+                unifiedAppKeys.getAppPriKey(),
+                accessTokenClaim);
 
+        JWTClaimsData refreshTokenClaim = JWTClaimsData.builder()
+                .keyId(unifiedAppKeys.getUnifiedKeypairId())
+                .issuer("").audience("")
+                .tokenType(JWTConstant.REFRESH_TOKEN)
+                .unifiedAppId(unifiedAppKeys.getUnifiedAppId())
+                .unifiedUserId(unifiedUser.getUnifiedUserId())
+                .unifiedUserName(unifiedUser.getUserName())
+                .build();
 
-        return null;
+        //JWT CREATE REFRESH_TOKEN
+        String refreshToken = JWTHelper.buildToken(unifiedAppKeys.getAppPubKey(),
+                unifiedAppKeys.getAppPriKey(),
+                refreshTokenClaim);
+
+        UnifiedAccessToken unifiedToken = new UnifiedAccessToken();
+        unifiedToken.setAccessToken(accessToken);
+        unifiedToken.setRefreshToken(refreshToken);
+
+        int result = unifiedAccessTokenMapper.insert(unifiedToken);
+        if (result > 0 && 0 != unifiedToken.getUnifiedAccessTokenId()) {
+
+            return ResultModel.success(unifiedToken);
+        } else {
+            return ResultModel.serverError();
+        }
     }
 }
 

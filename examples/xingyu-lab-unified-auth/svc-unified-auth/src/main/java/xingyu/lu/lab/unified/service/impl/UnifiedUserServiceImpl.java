@@ -57,7 +57,7 @@ public class UnifiedUserServiceImpl extends ServiceImpl<UnifiedUserMapper, Unifi
 
         if (0 == appId) {
             appId = 8909507396767744L;
-//            appId = getUnifedAdminAppId();
+//            appId = getUnifiedAdminAppId();i
         }
 
         //TODO 根据 AppId 获取 App 信息 获取 重定向地址
