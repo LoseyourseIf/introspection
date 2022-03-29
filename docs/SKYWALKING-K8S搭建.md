@@ -3,19 +3,23 @@
 **准备工作**
 
 ```shell
+export SKYWALKING_RELEASE_NAME=skywalking
+export SKYWALKING_RELEASE_NAMESPACE=infra
+export REPO=chart
 git clone https://github.com/apache/skywalking-kubernetes
-
-cd skywalking-kubernetes/chart
-
-helm dep up skywalking
+cd skywalking-kubernetes
+helm repo add elastic https://helm.elastic.co
+helm dep up ${REPO}/skywalking
 ```
 
-**helm 3 skywalking**
-
-> 这里采用H2存储 高可用请使用 elasticsearch 
+**helm**
 
 ```shell
-helm -n {your-namespace} install skywalking skywalking --set oap.storageType='h2' --set ui.image.tag=8.3.0 --set oap.image.tag=8.3.0-es7 --set oap.replicas=2 --set oap.env.JAVA_OPTS='-Dmode=' --set elasticsearch.enabled=false --set oap.envoy.als.enabled=true
+helm install "${SKYWALKING_RELEASE_NAME}" ${REPO}/skywalking -n "${SKYWALKING_RELEASE_NAMESPACE}" \
+  --set oap.image.tag=8.8.1 \
+  --set oap.storageType=elasticsearch \
+  --set ui.image.tag=8.8.1 \
+  --set elasticsearch.imageTag=6.8.6
 ```
 
 **服务端口**
