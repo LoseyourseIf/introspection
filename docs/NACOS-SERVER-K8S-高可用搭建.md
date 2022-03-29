@@ -9,137 +9,11 @@
 >  注意PVC的配置
 
 ```yaml
-kind: Service
-apiVersion: v1
-metadata:
-  name: k8s-nacos-mysql-master
-  namespace: {your-namespace}
-  labels:
-    app: k8s-nacos-mysql-master
-    version: v1
-  annotations:
-    kubesphere.io/creator: lxy
-    kubesphere.io/serviceType: statefulservice
-spec:
-  ports:
-    - name: tcp-33060
-      protocol: TCP
-      port: 33060
-      targetPort: 33060
-    - name: tcp-3306
-      protocol: TCP
-      port: 3306
-      targetPort: 3306
-  selector:
-    app: k8s-nacos-mysql-master
-  type: NodePort
-  sessionAffinity: None
-  externalTrafficPolicy: Cluster
----
-kind: StatefulSet
-apiVersion: apps/v1
-metadata:
-  name: k8s-nacos-mysql-master-v1
-  namespace: {your-namespace}
-  labels:
-    app: k8s-nacos-mysql-master
-    version: v1
-  annotations:
-    kubesphere.io/creator: lxy
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: k8s-nacos-mysql-master
-      version: v1
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        app: k8s-nacos-mysql-master
-        version: v1
-      annotations:
-        kubesphere.io/containerSecrets: ''
-        logging.kubesphere.io/logsidecar-config: '{}'
-    spec:
-      volumes:
-        - name: host-time
-          hostPath:
-            path: /etc/localtime
-            type: ''
-        - name: volume-9555dc
-          persistentVolumeClaim:
-            claimName: nacos-mysql-data
-        - name: volume-qq2hp5
-          configMap:
-            name: mysql-cnf
-            defaultMode: 420
-      containers:
-        - name: nacos-mysql-container-d8dxhv
-          image: nacos/nacos-mysql-master
-          ports:
-            - name: tcp-33060
-              containerPort: 33060
-              protocol: TCP
-            - name: tcp-3306
-              containerPort: 3306
-              protocol: TCP
-          env:
-            - name: MYSQL_DATABASE
-              value: nacos_k8s
-            - name: MYSQL_USER
-              value: nacos
-            - name: MYSQL_PASSWORD
-              value: nacos
-            - name: MYSQL_REPLICATION_USER
-              value: nacos_ru
-            - name: MYSQL_REPLICATION_PASSWORD
-              value: nacos_ru
-            - name: MYSQL_ROOT_PASSWORD
-              value: Aa123456
-          resources:
-            limits:
-              cpu: '2'
-              memory: 4000Mi
-            requests:
-              cpu: '1'
-              memory: 1000Mi
-          volumeMounts:
-            - name: volume-9555dc
-              mountPath: /var/lib/mysql
-              subPath: mysql
-            - name: volume-qq2hp5
-              readOnly: true
-              mountPath: /etc/mysql/conf.d/my.cnf
-              subPath: my.cnf
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          imagePullPolicy: Always
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
-      dnsPolicy: ClusterFirst
-      serviceAccountName: default
-      serviceAccount: default
-      securityContext: {}
-      affinity: {}
-      schedulerName: default-scheduler
-  serviceName: k8s-nacos-mysql-master
-  podManagementPolicy: OrderedReady
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      partition: 0
-  revisionHistoryLimit: 10
-```
-
-###  K8S YAML Nacos-Server
-
-```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nacos-application-config
-  namespace: {your-namespace}
+  namespace: infra
   labels:
     app: nacos-application-config
 data:
@@ -184,32 +58,28 @@ data:
     nacos.naming.distro.syncRetryDelay=5000
     nacos.naming.data.warmup=true
     ### turn on mcp server
-    nacos.istio.mcp.server.enabled=true
+    nacos.istio.mcp.server.enabled=false
 ---
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: nacos-cm
-  namespace: {your-namespace}
-  annotations:
-    kubesphere.io/creator: lxy
+  namespace: infra
 data:
-  mysql.master.db.name: nacos_k8s
-  mysql.master.host: k8s-nacos-mysql-master.{your-namespace}.svc.cluster.local
-  mysql.master.password: nacos
+  mysql.master.db.name: nacos
+  mysql.master.host: radondb-mysql-leader.infra.svc.cluster.local
   mysql.master.port: '3306'
   mysql.master.user: nacos
-  mysql.root.pwd: root
+  mysql.master.password: nacos
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: nacos-headless
-  namespace: {your-namespace}
+  namespace: infra
   labels:
     app: nacos
   annotations:
-    kubesphere.io/creator: lxy
     service.alpha.kubernetes.io/tolerate-unready-endpoints: 'true'
 spec:
   ports:
@@ -235,7 +105,7 @@ kind: StatefulSet
 apiVersion: apps/v1
 metadata:
   name: nacos
-  namespace: {your-namespace}
+  namespace: infra
 spec:
   replicas: 3
   selector:
@@ -243,7 +113,6 @@ spec:
       app: nacos
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: nacos
       annotations:
@@ -251,7 +120,7 @@ spec:
         pod.alpha.kubernetes.io/initialized: 'true'
     spec:
       volumes:
-        - name: volume-custom-properties
+        - name: nacos-custom-properties
           configMap:
             name: nacos-application-config
             items:
@@ -264,7 +133,7 @@ spec:
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
       containers:
         - name: nacos
           image: 'nacos/nacos-server:1.3.0'
@@ -281,9 +150,9 @@ spec:
           env:
             - name: NACOS_SERVERS
               value: >-
-                nacos-0.nacos-headless.micro-service.svc.cluster.local 
-                nacos-1.nacos-headless.micro-service.svc.cluster.local 
-                nacos-2.nacos-headless.micro-service.svc.cluster.local
+                nacos-0.nacos-headless.infra.svc.cluster.local 
+                nacos-1.nacos-headless.infra.svc.cluster.local 
+                nacos-2.nacos-headless.infra.svc.cluster.local
             - name: PREFER_HOST_MODE
               value: hostname
             - name: MYSQL_SERVICE_HOST
@@ -320,12 +189,12 @@ spec:
           volumeMounts:
             - name: nacos-data-template
               mountPath: /home/nacos/data
-            - name: volume-custom-properties
+            - name: nacos-custom-properties
               mountPath: /home/nacos/init.d/custom.properties
               subPath: custom.properties
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
@@ -342,16 +211,17 @@ spec:
               topologyKey: kubernetes.io/hostname
       schedulerName: default-scheduler
   volumeClaimTemplates:
-    - metadata:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
         name: nacos-data-template
-        namespace: micro-service
-        creationTimestamp: null
       spec:
         accessModes:
           - ReadWriteOnce
         resources:
           requests:
             storage: 10Gi
+        storageClassName: rook-ceph-block
         volumeMode: Filesystem
       status:
         phase: Pending
