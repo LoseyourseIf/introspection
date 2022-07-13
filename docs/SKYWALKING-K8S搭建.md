@@ -48,3 +48,7 @@ apm-spring-annotation-plugin-8.3.0.jar
 ```
 ENTRYPOINT java -jar -javaagent:skywalking/skywalking-agent.jar -Dskywalking.agent.service_name={your-app-name} springboot-app.jar --spring.profiles.active=prod
 ```
+**卸载**
+```shell
+helm -n {SKYWALKING_RELEASE_NAMESPACE} uninstall {SKYWALKING_RELEASE_NAME}
+```
