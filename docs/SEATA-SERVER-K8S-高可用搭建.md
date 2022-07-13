@@ -84,6 +84,7 @@ spec:
 
 ```mysql
 create database seata DEFAULT CHARSET = utf8;
+use seata;
 create table if not exists branch_table
 (
   branch_id bigint not null primary key,
