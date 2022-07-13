@@ -23,23 +23,25 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: seata-ha-server-config
-  namespace: {your_namespace}
+  namespace: infra
 data:
   registry.conf: |
     registry {
         type = "nacos"
         nacos {
           application = "seata-server"
-          serverAddr = "nacos-server-addr:port"
+          serverAddr = "172.16.31.210:31256"
           namespace = "seata-ha"
+          group = "SEATA_GROUP"
         }
     }
     config {
       type = "nacos"
       nacos {
-        serverAddr = "nacos-server-addr:port"
-        group = "SEATA_GROUP"
+        serverAddr = "172.16.31.210:31256"
         namespace = "seata-ha"
+        group = "SEATA_GROUP"
+        dataId = "seata_config"
       }
     }
 ---
@@ -164,21 +166,26 @@ create table biz_db.undo_log
 comment 'AT transaction mode undo table' charset=utf8;
 ```
 
-###  **Nacos 配置 修改数据库密码不加密** 
+###  **Nacos 配置** 
 
-进入SEATA script 目录
+进入SEATA script 目录参照config.txt注释修改配置
 
 ```
-cd seata/script/config-center
+cd seata/script/config-center/config.txt
 ```
 
-**去掉 store.publicKey=failure durid 数据库密码加密** 
+**去掉 durid 数据库密码加密**
 
-修改 store.mode=db store.db下的配置项
+```store.publicKey=```
+
+修改 store.mode=db store.db下的数据库连接配置
+
+定义 tx_group
+```
+service.vgroupMapping.my_test_tx_group=default
+```
 
 ```properties
-nacosAddr=172.16.19.12:32472
-group=SEATA_GROUP
 transport.type=TCP
 transport.server=NIO
 transport.heartbeat=true
@@ -193,7 +200,7 @@ transport.threadFactory.clientWorkerThreadPrefix=NettyClientWorkerThread
 transport.threadFactory.bossThreadSize=1
 transport.threadFactory.workerThreadSize=default
 transport.shutdown.wait=3
-service.vgroupMapping.yx_seata_tc_group=default
+service.vgroupMapping.my_test_tx_group=default
 service.default.grouplist=127.0.0.1:8091
 service.enableDegrade=false
 service.disableGlobalTransaction=false
@@ -214,17 +221,10 @@ client.tm.degradeCheck=false
 client.tm.degradeCheckAllowTimes=10
 client.tm.degradeCheckPeriod=2000
 store.mode=db
-store.publicKey=failure
-store.file.dir=file_store/data
-store.file.maxBranchSessionSize=16384
-store.file.maxGlobalSessionSize=512
-store.file.fileWriteBufferCacheSize=16384
-store.file.flushDiskMode=async
-store.file.sessionReloadReadSize=100
 store.db.datasource=druid
 store.db.dbType=mysql
 store.db.driverClassName=com.mysql.jdbc.Driver
-store.db.url=jdbc:mysql://172.16.19.12:32757/seata?useUnicode=true&rewriteBatchedStatements=true
+store.db.url=jdbc:mysql://172.16.31.210:30086/seata?useUnicode=true&rewriteBatchedStatements=true
 store.db.user=seata
 store.db.password=seata
 store.db.minConn=5
@@ -234,15 +234,6 @@ store.db.branchTable=branch_table
 store.db.queryLimit=100
 store.db.lockTable=lock_table
 store.db.maxWait=5000
-store.redis.mode=single
-store.redis.single.host=127.0.0.1
-store.redis.single.port=6379
-store.redis.maxConn=10
-store.redis.minConn=1
-store.redis.maxTotal=100
-store.redis.database=0
-store.redis.password=failure
-store.redis.queryLimit=100
 server.recovery.committingRetryPeriod=1000
 server.recovery.asynCommittingRetryPeriod=1000
 server.recovery.rollbackingRetryPeriod=1000
@@ -266,13 +257,4 @@ metrics.enabled=false
 metrics.registryType=compact
 metrics.exporterList=prometheus
 metrics.exporterPrometheusPort=9898
-```
-
-###  使用命令行注册配置
-
-```
-sh nacos/nacos-config.sh -h 127.0.0.1 -p 8848 -g SEATA_GROUP -t seata-ha -u nacos -w
- nacos
-
-sh nacos/nacos-config.sh -h 127.0.0.1 -p 8848 -g SEATA_GROUP -t seata-ha -u nacos -w nacos
 ```
