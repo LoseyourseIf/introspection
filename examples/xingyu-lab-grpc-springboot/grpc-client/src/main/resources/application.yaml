@@ -1,8 +1,0 @@
-server:
-  port: 8081
-spring:
-  profiles:
-    active: dev
-logging:
-  path: ./logs
-  name: grpc-client
