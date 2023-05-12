@@ -31,3 +31,14 @@ sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_
 
 
 注意 使用 set @@global.sql_mode = ......;也能解决问题、但是数据库重启后设置还原
+
+```
+  configFiles:
+    node.cnf: |
+      [mysqld]
+      sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+      default_storage_engine=InnoDB
+      max_connections=65535
+      audit_log_rotations=30
+      audit_log_rotate_on_size=1024M
+```
