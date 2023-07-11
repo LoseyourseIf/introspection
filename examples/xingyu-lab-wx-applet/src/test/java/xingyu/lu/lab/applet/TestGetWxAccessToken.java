@@ -3,6 +3,7 @@ package xingyu.lu.lab.applet;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import xingyu.lu.lab.applet.entity.WXJSSign;
 import xingyu.lu.lab.applet.utils.WXUtil;
 
 import javax.annotation.Resource;
+import java.net.URLDecoder;
 
 
 @RunWith(SpringRunner.class)
@@ -30,9 +32,8 @@ public class TestGetWxAccessToken {
 
     public static String JSAPI_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token={1}";
 
-
-    public static final String APP_ID = "";
-    public static final String APP_SECRET = "";
+    public static final String APP_ID = "wx564f728c160d1da0";
+    public static final String APP_SECRET = "5220f2cf99c242acf0b619de3652215d";
 
     @Resource
     private RestTemplate restTemplate;
@@ -41,7 +42,7 @@ public class TestGetWxAccessToken {
     @Test
     public void testBuildWXJSConfig() throws Exception {
 
-        WXJSSign wxjsSign = WXJSSign.buildWXJSSign("http://192.168.2.213:8080/dashboard/scan");
+        WXJSSign wxjsSign = WXJSSign.buildWXJSSign("https://cbsp.ynstt.org.cn/");
         /*Get WXAccessToken*/
         WXAccessToken accessToken = getAccessToken();
         System.out.println("========================WXAccessToken=========================");
@@ -119,4 +120,5 @@ public class TestGetWxAccessToken {
         }
         return null;
     }
+
 }
