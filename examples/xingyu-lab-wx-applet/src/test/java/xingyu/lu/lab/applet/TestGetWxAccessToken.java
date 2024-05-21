@@ -32,8 +32,8 @@ public class TestGetWxAccessToken {
 
     public static String JSAPI_TICKET_URL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token={1}";
 
-    public static final String APP_ID = "wx564f728c160d1da0";
-    public static final String APP_SECRET = "5220f2cf99c242acf0b619de3652215d";
+    public static final String APP_ID = "";
+    public static final String APP_SECRET = "";
 
     @Resource
     private RestTemplate restTemplate;
@@ -42,7 +42,7 @@ public class TestGetWxAccessToken {
     @Test
     public void testBuildWXJSConfig() throws Exception {
 
-        WXJSSign wxjsSign = WXJSSign.buildWXJSSign("https://cbsp.ynstt.org.cn/");
+        WXJSSign wxjsSign = WXJSSign.buildWXJSSign("123");
         /*Get WXAccessToken*/
         WXAccessToken accessToken = getAccessToken();
         System.out.println("========================WXAccessToken=========================");
