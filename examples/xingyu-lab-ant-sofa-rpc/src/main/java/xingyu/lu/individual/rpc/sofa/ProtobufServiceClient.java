@@ -17,21 +17,16 @@
 package xingyu.lu.individual.rpc.sofa;
 
 import com.alipay.sofa.rpc.common.RpcConstants;
-import com.alipay.sofa.rpc.common.json.JSON;
 import com.alipay.sofa.rpc.config.ApplicationConfig;
 import com.alipay.sofa.rpc.config.ConsumerConfig;
 import com.alipay.sofa.rpc.config.RegistryConfig;
 import io.grpc.StatusRuntimeException;
-import lombok.extern.slf4j.Slf4j;
 import xingyu.lu.individual.rpc.sofa.builder.GrpcXReply;
 import xingyu.lu.individual.rpc.sofa.builder.GrpcXRequest;
 import xingyu.lu.individual.rpc.sofa.builder.SofaXServiceTriple;
-//import xingyu.lu.individual.rpc.grpc.xingyu.lu.individual.svc.sofa.boot.facade.builder.GrpcXReply;
-//import xingyu.lu.individual.rpc.grpc.xingyu.lu.individual.svc.sofa.boot.facade.builder.GrpcXRequest;
-//import xingyu.lu.individual.rpc.grpc.xingyu.lu.individual.svc.sofa.boot.facade.builder.XServiceGrpc;
 
 /**
- * @author <a href="mailto:zhanggeng.zg@antfin.com">GengZhang</a>
+ *
  */
 public class ProtobufServiceClient {
 

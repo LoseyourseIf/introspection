@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xingyu-lab-architecture</artifactId>
+        <groupId>xingyu.lab</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>clean-arch</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>entities</module>
+        <module>cases</module>
+        <module>adapter</module>
+        <module>frames</module>
+    </modules>
+
+    <properties>
+        <reversion>${version}</reversion>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>xingyu.lab</groupId>
+                <artifactId>entities</artifactId>
+                <version>${reversion}</version>
+            </dependency>
+            <dependency>
+                <groupId>xingyu.lab</groupId>
+                <artifactId>cases</artifactId>
+                <version>${reversion}</version>
+            </dependency>
+            <dependency>
+                <groupId>xingyu.lab</groupId>
+                <artifactId>adapter</artifactId>
+                <version>${reversion}</version>
+            </dependency>
+            <dependency>
+                <groupId>xingyu.lab</groupId>
+                <artifactId>frames</artifactId>
+                <version>${reversion}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import xingyu.lu.individual.rpc.sofa.builder.SofaXServiceTriple;
 
 /**
- * @author <a href="mailto:zhanggeng.zg@antfin.com">GengZhang</a>
+ *
  */
 public class ProtobufServiceServer {
 
