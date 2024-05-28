@@ -2,6 +2,8 @@ server:
   port: 18002
 
 spring:
+  #  profiles:
+  #    active: @env@
   application:
     name: cloud-gateway
   cloud:
@@ -16,6 +18,9 @@ spring:
         group: local
         name: spring-datatsource
         file-extension: yaml
+        refresh-enabled: true
+        # 启用远程同步配置
+        enable-remote-sync-config: true
   config:
     #  Nacos 在 Cloud 中 dataId 的完整格式：${prefix}-${spring.profiles.active}.${file-extension}
     #  prefix 默认为 spring.application.name 的值
