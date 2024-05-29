@@ -22,6 +22,7 @@
         <module>lab-cloud-svc-provider</module>
         <module>lab-cloud-svc-consumer</module>
     </modules>
+
     <developers>
         <developer>
             <name>xingyu.lu</name>
@@ -48,11 +49,6 @@
     </properties>
 
     <dependencies>
-        <!-- SpringBoot WEB -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <!-- Nacos 配置中心 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -67,6 +63,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- 健康检查 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <!-- 服务发现：负载均衡 -->
         <dependency>
@@ -173,7 +174,6 @@
 
 
     <profiles>
-
         <profile>
             <id>dev</id>
             <properties>
