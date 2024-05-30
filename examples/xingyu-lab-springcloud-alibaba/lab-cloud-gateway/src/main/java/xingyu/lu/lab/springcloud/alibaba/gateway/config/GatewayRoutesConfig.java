@@ -23,6 +23,22 @@ public class GatewayRoutesConfig {
     @Resource
     RouteLocatorBuilder builder;
 
+    /**
+     * @description: Gateway route
+     *
+     * 路由创建
+     * RouteDefineLocator:
+     *  - org.springframework.cloud.gateway.config.PropertiesRouteDefinitionLocator;
+     *  - org.springframework.cloud.gateway.route.RouteDefinitionRepository;
+     *  - org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
+     * ⬇
+     * CompositeRouteDefinitionLocator
+     * ⬇
+     * RouteDefinitionRouteLocator      CustomRouteLocator
+     * ⬇
+     * CompositeRouteDefinitionLocator
+     *
+     **/
     @Bean
     public RouteLocator customRouteLocator() {
 
@@ -31,7 +47,6 @@ public class GatewayRoutesConfig {
          *  After=2017-01-20T17:42:47.789-07:00[America/Denver]
          *  仅匹配发生在 2017-01-20 17:42 北美山区时区 (Denver) 之后的请求
          **/
-
         ZonedDateTime timeBegin = ZonedDateTime.now().plusDays(-1);
         ZonedDateTime timeEnd = ZonedDateTime.now().plusDays(1);
 

@@ -20,6 +20,5 @@ public class ZonedDateTimeTest {
         ZonedDateTime zdt = ZonedDateTime.parse("2024-05-29T10:28:48+08:00[Asia/Shanghai]");
         System.out.println("ZonedDateTime DateTimeFormatter ISO_ZONED_DATE_TIME");
         System.out.println(zdt.format(DateTimeFormatter.ISO_ZONED_DATE_TIME));
-
     }
 }

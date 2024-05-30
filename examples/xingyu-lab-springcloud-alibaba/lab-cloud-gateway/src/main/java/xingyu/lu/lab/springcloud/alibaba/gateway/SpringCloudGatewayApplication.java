@@ -9,6 +9,24 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @Version: 1.0
  * @Author: XingYu.Lu
  * @CreateTime: 2024-05-21  16:52
+ *
+ * <p>
+ * SpringCloudGateway 路由匹配
+ * [Request]
+ * ⬇
+ * org.springframework.web.reactive.DispatcherHandler
+ * ⬇
+ * RoutePredicateHandlerMapping
+ * ⬇
+ * Route
+ * ⬇
+ * org.springframework.cloud.gateway.handler.FilteringWebHandle
+ * ⬇
+ * GatewayFilterChain
+ * ⬇
+ * Proxied Service
+ * ⬇
+ * [Response]
  */
 
 @SpringBootApplication
