@@ -13,7 +13,6 @@ import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
-
 import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import jakarta.annotation.PostConstruct;
@@ -29,14 +28,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.codec.ServerCodecConfigurer;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsWebFilter;
-import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.reactive.result.view.ViewResolver;
-
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -83,13 +78,6 @@ public class SentinelGatewayConfig {
     }
 
 
-    /*
-     * @description: 自定义熔断降级的结果处理
-     * @author: LuXingYu
-     * @date: 2024/5/31 16:21
-     * @param: []
-     * @return: void
-     **/
     @PostConstruct
     public void initBlockHandlers() {
 
@@ -102,7 +90,7 @@ public class SentinelGatewayConfig {
                     serverWebExchange.getRequest().getPath(),
                     serverWebExchange.getRequest().getURI());
 
-            return ServerResponse.status(HttpStatus.OK)
+            return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(bodyInserter);
 
@@ -202,39 +190,43 @@ public class SentinelGatewayConfig {
      **/
     private BodyInserter<String, ReactiveHttpOutputMessage> blockExceptionHandler(Throwable throwable) {
 
-        if (throwable instanceof BlockException) {
+        if (throwable instanceof FlowException) {
+
+            FlowException FlowException = (FlowException) throwable;
+            log.info("[REQUEST_BLOCKED] Current Limiting Protection RootCause = {} ",
+                    ExceptionUtils.getRootCauseMessage(FlowException));
+            // 限流保护
+            return BodyInserters.fromValue(
+                    "{'code': -999, 'message': '服务短时间请求次数达到上限，请稍后再试！'}");
+
+        } else if (throwable instanceof DegradeException) {
+            DegradeException degradeException = (DegradeException) throwable;
+            log.info("[REQUEST_BLOCKED] Fuse Protection RootCause = {} ",
+                    ExceptionUtils.getRootCauseMessage(degradeException));
+            // 熔断保护
+            return BodyInserters.fromValue(
+                    "{'code': -998, 'message': '服务异常，请稍后再试！'}");
+
+        } else if (throwable instanceof SystemBlockException) {
+            SystemBlockException systemBlockException = (SystemBlockException) throwable;
+            log.info("[REQUEST_BLOCKED] System Protection RootCause = {} ",
+                    ExceptionUtils.getRootCauseMessage(systemBlockException));
+            // 系统保护
+            return BodyInserters.fromValue(
+                    "{'code': -990, 'message': '服务繁忙，请稍后再试！'}");
+        } else if (throwable instanceof BlockException) {
 
             BlockException blockException = (BlockException) throwable;
             log.info("[REQUEST_BLOCKED] BlockException RootCause = {} ",
                     ExceptionUtils.getRootCauseMessage(blockException));
-
-            if (throwable instanceof FlowException) {
-
-                FlowException FlowException = (FlowException) throwable;
-                log.info("[REQUEST_BLOCKED] Current Limiting Protection RootCause = {} ",
-                        ExceptionUtils.getRootCauseMessage(FlowException));
-                // 限流保护
-                return BodyInserters.fromValue(
-                        "{'code': -999, 'message': '服务短时间请求次数达到上限，请稍后再试！'}");
-
-            } else if (throwable instanceof DegradeException) {
-                DegradeException degradeException = (DegradeException) throwable;
-                log.info("[REQUEST_BLOCKED] Fuse Protection RootCause = {} ",
-                        ExceptionUtils.getRootCauseMessage(degradeException));
-                // 熔断保护
-                return BodyInserters.fromValue(
-                        "{'code': -998, 'message': '服务异常，请稍后再试！'}");
-
-            } else if (throwable instanceof SystemBlockException) {
-                SystemBlockException systemBlockException = (SystemBlockException) throwable;
-                log.info("[REQUEST_BLOCKED] System Protection RootCause = {} ",
-                        ExceptionUtils.getRootCauseMessage(systemBlockException));
-                // 系统保护
-                return BodyInserters.fromValue(
-                        "{'code': -990, 'message': '服务繁忙，请稍后再试！'}");
-            }
+            return BodyInserters.fromValue(
+                    "{'code': -990, 'message': '服务繁忙，请稍后再试！'}");
+        } else {
+            log.info("[REQUEST_BLOCKED] Exception RootCause = {} ",
+                    ExceptionUtils.getRootCauseMessage(throwable));
+            return BodyInserters.fromValue(
+                    "{'code': -990, 'message': '服务繁忙，请稍后再试！'}");
         }
-        return BodyInserters.fromValue(
-                "{'code': -990, 'message': '服务繁忙，请稍后再试！'}");
+
     }
 }
