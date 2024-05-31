@@ -27,6 +27,8 @@ spring:
       seata-mode: AT
       strict: false
       primary: order
+      #当用户使用slave切换数据源时会使用负载均衡算法 LoadBalanceDynamicDataSourceStrategy 轮询
+      strategy: com.baomidou.dynamic.datasource.strategy.LoadBalanceDynamicDataSourceStrategy
       datasource:
         order:
           url: jdbc:mysql://127.0.0.1:3306/dev?useSSL=false&useUnicode=true&characterEncoding=UTF-8
@@ -43,5 +45,3 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: dev
           password: Aa123456
-      #当用户使用slave切换数据源时会使用负载均衡算法 LoadBalanceDynamicDataSourceStrategy 轮询
-      strategy: com.baomidou.dynamic.datasource.strategy.LoadBalanceDynamicDataSourceStrategy
