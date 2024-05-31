@@ -8,10 +8,14 @@ import com.alibaba.csp.sentinel.adapter.gateway.sc.SentinelGatewayFilter;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.BlockRequestHandler;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 
+import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
+import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -23,10 +27,12 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.reactive.result.view.ViewResolver;
@@ -77,13 +83,20 @@ public class SentinelGatewayConfig {
     }
 
 
+    /*
+     * @description: 自定义熔断降级的结果处理
+     * @author: LuXingYu
+     * @date: 2024/5/31 16:21
+     * @param: []
+     * @return: void
+     **/
     @PostConstruct
     public void initBlockHandlers() {
 
         BlockRequestHandler blockRequestHandler = (serverWebExchange, throwable) -> {
 
-            log.info("[REQUEST_BLOCKED] CauseMessage = {} ",
-                    ExceptionUtils.getRootCauseMessage(throwable));
+            BodyInserter<String, ReactiveHttpOutputMessage> bodyInserter =
+                    blockExceptionHandler(throwable);
 
             log.info("[REQUEST_BLOCKED] REQ = {} , URI = {} ",
                     serverWebExchange.getRequest().getPath(),
@@ -91,8 +104,7 @@ public class SentinelGatewayConfig {
 
             return ServerResponse.status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(BodyInserters.fromValue(
-                            "{'code': -999, 'message': '服务不可用，请稍后再试！'}"));
+                    .body(bodyInserter);
 
         };
         GatewayCallbackManager.setBlockHandler(blockRequestHandler);
@@ -180,15 +192,49 @@ public class SentinelGatewayConfig {
         GatewayRuleManager.loadRules(rules);
     }
 
-    @Bean
-    public CorsWebFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        config.addAllowedOriginPattern("*");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsWebFilter(source);
+
+    /*
+     * @description: 不同类型 BlockException 分开处理
+     * @author: LuXingYu
+     * @date: 2024/5/31 16:20
+     * @param: [throwable]
+     * @return: org.springframework.web.reactive.function.BodyInserter<java.lang.String,org.springframework.http.ReactiveHttpOutputMessage>
+     **/
+    private BodyInserter<String, ReactiveHttpOutputMessage> blockExceptionHandler(Throwable throwable) {
+
+        if (throwable instanceof BlockException) {
+
+            BlockException blockException = (BlockException) throwable;
+            log.info("[REQUEST_BLOCKED] BlockException RootCause = {} ",
+                    ExceptionUtils.getRootCauseMessage(blockException));
+
+            if (throwable instanceof FlowException) {
+
+                FlowException FlowException = (FlowException) throwable;
+                log.info("[REQUEST_BLOCKED] Current Limiting Protection RootCause = {} ",
+                        ExceptionUtils.getRootCauseMessage(FlowException));
+                // 限流保护
+                return BodyInserters.fromValue(
+                        "{'code': -999, 'message': '服务短时间请求次数达到上限，请稍后再试！'}");
+
+            } else if (throwable instanceof DegradeException) {
+                DegradeException degradeException = (DegradeException) throwable;
+                log.info("[REQUEST_BLOCKED] Fuse Protection RootCause = {} ",
+                        ExceptionUtils.getRootCauseMessage(degradeException));
+                // 熔断保护
+                return BodyInserters.fromValue(
+                        "{'code': -998, 'message': '服务异常，请稍后再试！'}");
+
+            } else if (throwable instanceof SystemBlockException) {
+                SystemBlockException systemBlockException = (SystemBlockException) throwable;
+                log.info("[REQUEST_BLOCKED] System Protection RootCause = {} ",
+                        ExceptionUtils.getRootCauseMessage(systemBlockException));
+                // 系统保护
+                return BodyInserters.fromValue(
+                        "{'code': -990, 'message': '服务繁忙，请稍后再试！'}");
+            }
+        }
+        return BodyInserters.fromValue(
+                "{'code': -990, 'message': '服务繁忙，请稍后再试！'}");
     }
 }
