@@ -5,16 +5,20 @@ spring:
       # 路由配置项，对应 RouteDefinition 数组
       routes:
         # 路由的编号
-        - id: iocoder
+        - id: nacos_route
           # 路由目标地址
-          uri: http://www.iocoder.cn
+          uri: http://localhost:8848
           # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
           predicates:
-            - Path=/blog
-          # 过滤器，对请求进行拦截，实现自定义的功能，对应 FilterDefinition 数组
-          filters:
-            - StripPrefix=1
-        - id: oschina
-          uri: http://localhost:8848
+            - Path=/nacos/**
+        # Sentinel Route Demo
+        - id: aliyun_route
+          uri: https://www.aliyun.com/
           predicates:
-            - Path=/nacos
+            - Path=/product/**
+        - id: httpbin_route
+          uri: https://httpbin.org
+          predicates:
+            - Path=/httpbin/**
+          filters:
+            - RewritePath=/httpbin/(?<segment>.*), /$\{segment}
