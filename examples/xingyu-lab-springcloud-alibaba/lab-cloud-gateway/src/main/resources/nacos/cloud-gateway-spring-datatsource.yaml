@@ -31,17 +31,17 @@ spring:
       strategy: com.baomidou.dynamic.datasource.strategy.LoadBalanceDynamicDataSourceStrategy
       datasource:
         order:
-          url: jdbc:mysql://127.0.0.1:3306/dev?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+          url: jdbc:mysql://127.0.0.1:3306/dev?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: dev
           password: Aa123456
         pay:
-          url: jdbc:mysql://127.0.0.1:3306/dev?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+          url: jdbc:mysql://127.0.0.1:3306/dev?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: dev
           password: Aa123456
         stock:
-          url: jdbc:mysql://127.0.0.1:3306/dev?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+          url: jdbc:mysql://127.0.0.1:3306/dev?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: dev
           password: Aa123456
