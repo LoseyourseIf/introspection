@@ -24,17 +24,22 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-
+        <!--lb-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-
+        <!--与sentinel控制台交互-->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-simple-http</artifactId>
+        </dependency>
+        <!--sentinel-cloud-gateway-adapter-->
+        <!-- -Dcsp.sentinel.dashboard.server=127.0.0.1:18080 -Dproject.name=cloud_gateway -->
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>

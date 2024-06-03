@@ -13,7 +13,6 @@ import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
-import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
 import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import jakarta.annotation.PostConstruct;
@@ -41,6 +40,11 @@ import java.util.Set;
 
 /**
  * @Description: Sentinel 配置
+ * <p>
+ * Sentinel Dashboard 接入
+ * -Dcsp.sentinel.dashboard.server=127.0.0.1:18080
+ * -Dproject.name=cloud_gateway
+ * <p>
  * @Version: 1.0
  * @Author: XingYu.Lu
  * @CreateTime: 2024-05-30  16:05
@@ -101,7 +105,7 @@ public class SentinelGatewayConfig {
 
     /**
      * @description: 熔断
-     *
+     * <p>
      * TEST
      * curl --location 'http://localhost:18006/httpbin/status/500'
      **/
@@ -114,7 +118,7 @@ public class SentinelGatewayConfig {
                 .setGrade(RuleConstant.DEGRADE_GRADE_RT) // 响应时间模式
                 .setCount(300) // 1.异常比率阈值 比如 0.5 50% ; 2. 计次则为 几次异常 ; 3. 响应时间 毫秒
                 .setTimeWindow(600) // 在 timeWindow 时间内 单位秒，如果触发了熔断条件，则进行熔断。
-                .setMinRequestAmount(5); // 设置熔断触发的最小请求数
+                .setMinRequestAmount(2); // 设置熔断触发的最小请求数
 
         DegradeRuleManager.loadRules(Collections.singletonList(rule));
     }
