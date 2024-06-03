@@ -14,6 +14,7 @@ import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -90,7 +91,7 @@ public class SentinelGatewayConfig {
                     serverWebExchange.getRequest().getPath(),
                     serverWebExchange.getRequest().getURI());
 
-            return ServerResponse.status(HttpStatus.TOO_MANY_REQUESTS)
+            return ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(bodyInserter);
 
@@ -100,14 +101,19 @@ public class SentinelGatewayConfig {
 
     /**
      * @description: 熔断
+     *
+     * TEST
+     * curl --location 'http://localhost:18006/httpbin/status/500'
      **/
     @PostConstruct
     private void initDegradeRules() {
 
-        DegradeRule rule = new DegradeRule("aliyun_route")
-                .setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO) // 设置熔断策略为异常比率
-                .setCount(0.5) // 设置异常比率阈值，比如 50%
-                .setTimeWindow(10) // 设置熔断时长，比如 10 秒
+        DegradeRule rule = new DegradeRule("httpbin_route")
+//                .setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO) // 设置熔断策略为异常比率
+//                .setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT) // 设置熔断策略为异常计次
+                .setGrade(RuleConstant.DEGRADE_GRADE_RT) // 响应时间模式
+                .setCount(300) // 1.异常比率阈值 比如 0.5 50% ; 2. 计次则为 几次异常 ; 3. 响应时间 毫秒
+                .setTimeWindow(600) // 在 timeWindow 时间内 单位秒，如果触发了熔断条件，则进行熔断。
                 .setMinRequestAmount(5); // 设置熔断触发的最小请求数
 
         DegradeRuleManager.loadRules(Collections.singletonList(rule));
@@ -167,13 +173,14 @@ public class SentinelGatewayConfig {
                 .setParamItem(new GatewayParamFlowItem()
                         .setParseStrategy(SentinelGatewayConstants.PARAM_PARSE_STRATEGY_CLIENT_IP)
                 )
+
         );
 
         rules.add(new GatewayFlowRule("httpbin_route")
                 .setGrade(RuleConstant.FLOW_GRADE_QPS)
-                .setCount(2)
+                .setCount(10)
                 .setIntervalSec(10)
-                .setBurst(2)
+                .setBurst(5)
                 .setControlBehavior(RuleConstant.CONTROL_BEHAVIOR_DEFAULT)
         );
 
@@ -190,9 +197,9 @@ public class SentinelGatewayConfig {
      **/
     private BodyInserter<String, ReactiveHttpOutputMessage> blockExceptionHandler(Throwable throwable) {
 
-        if (throwable instanceof FlowException) {
+        if (throwable instanceof ParamFlowException) {
 
-            FlowException FlowException = (FlowException) throwable;
+            ParamFlowException FlowException = (ParamFlowException) throwable;
             log.info("[REQUEST_BLOCKED] Current Limiting Protection RootCause = {} ",
                     ExceptionUtils.getRootCauseMessage(FlowException));
             // 限流保护
