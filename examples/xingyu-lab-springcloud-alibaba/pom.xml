@@ -17,7 +17,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>lab-cloud-config</module>
+        <module>lab-cloud-common</module>
         <module>lab-cloud-gateway</module>
         <module>lab-cloud-svc-provider</module>
         <module>lab-cloud-svc-consumer</module>
@@ -142,7 +142,7 @@
 
             <dependency>
                 <groupId>xingyu.lab</groupId>
-                <artifactId>lab-cloud-config</artifactId>
+                <artifactId>lab-cloud-common</artifactId>
                 <version>${reversion}</version>
             </dependency>
             <dependency>

@@ -1,4 +1,4 @@
-# Mysql-5.7-子查询OrderBy再GroupBy问题
+# Mysql-5.7-子查询先OrderBy再GroupBy问题
 
 >  在Mysql 5.7 中，由于MYSQL优化器的原因，在子查询中使用 order by 会被优化器优化导致排序失效
 >

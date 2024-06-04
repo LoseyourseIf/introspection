@@ -6,7 +6,6 @@ management:
     web:
       exposure:
         include: health,info
-
 spring:
   #  profiles:
   #    active: @env@
@@ -37,3 +36,6 @@ logging:
   level:
     com.baomidou: debug
     com.alibaba.cloud.nacos.configdata: info
+feign:
+  sentinel:
+    enabled: true

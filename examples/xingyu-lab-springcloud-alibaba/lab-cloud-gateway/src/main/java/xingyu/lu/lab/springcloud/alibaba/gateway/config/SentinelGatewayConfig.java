@@ -111,9 +111,7 @@ public class SentinelGatewayConfig {
         List<DegradeRule> degradeRules = new ArrayList<DegradeRule>();
 
         DegradeRule rule = new DegradeRule("cloud_svc_provider")
-//                .setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO) // 设置熔断策略为异常比率
-//                .setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT) // 设置熔断策略为异常计次
-                .setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO) // 响应时间模式
+                .setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO) // 设置熔断策略为异常比率
                 .setCount(0.2) // 1.异常比率阈值 比如 0.5 50% ; 2. 计次则为 几次异常 ; 3. 响应时间 毫秒
                 .setTimeWindow(60) // 在 timeWindow 时间内 单位秒，如果触发了熔断条件，则进行熔断。
                 .setMinRequestAmount(1); // 设置熔断触发的最小请求数

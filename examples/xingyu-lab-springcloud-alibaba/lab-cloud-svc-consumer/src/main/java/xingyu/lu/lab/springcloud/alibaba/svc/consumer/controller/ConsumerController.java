@@ -1,6 +1,5 @@
 package xingyu.lu.lab.springcloud.alibaba.svc.consumer.controller;
 
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,7 @@ public class ConsumerController {
     private CloudSVCProviderFeignClient feignClient;
 
     @GetMapping("/call")
-    public RestResult<String> call(@RequestParam String name) {
+    public RestResult<?> call(@RequestParam String name) {
         log.info("[call][ consumer 调用 cloud-svc-provider ({}) ]", name);
         return feignClient.echo(name);
 

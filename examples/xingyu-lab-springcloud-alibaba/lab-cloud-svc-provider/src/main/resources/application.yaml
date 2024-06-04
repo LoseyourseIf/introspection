@@ -38,3 +38,6 @@ logging:
   level:
     com.baomidou: debug
     com.alibaba.cloud.nacos.configdata: info
+feign:
+  sentinel:
+    enabled: true

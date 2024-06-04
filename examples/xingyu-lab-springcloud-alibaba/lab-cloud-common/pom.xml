@@ -10,7 +10,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>lab-cloud-config</artifactId>
+    <artifactId>lab-cloud-common</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
 
