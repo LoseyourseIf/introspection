@@ -17,14 +17,13 @@ spring:
     name: cloud-gateway
   cloud:
     nacos:
+      server-addr: 127.0.0.1:8848
+      username: nacos
+      password: nacos
       discovery:
-        server-addr: 127.0.0.1:8848
         namespace: aa23932f-daff-4188-994f-ceff3f8d9749
         group: local
-        username: nacos
-        password: nacos
       config:
-        server-addr: 127.0.0.1:8848
         namespace: aa23932f-daff-4188-994f-ceff3f8d9749
         group: local
         name: spring-datatsource
@@ -32,8 +31,6 @@ spring:
         refresh-enabled: true
         # 启用远程同步配置
         enable-remote-sync-config: true
-        username: nacos
-        password: nacos
   config:
     #  Nacos 在 Cloud 中 dataId 的完整格式：${prefix}-${spring.profiles.active}.${file-extension}
     #  prefix 默认为 spring.application.name 的值
