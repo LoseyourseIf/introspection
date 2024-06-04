@@ -11,11 +11,14 @@ spring:
           # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
           predicates:
             - Path=/nacos/**
-        # Sentinel Route Demo
-        - id: aliyun_route
-          uri: https://www.aliyun.com/
+        # cloud_svc_provider
+        - id: cloud_svc_provider
+          uri: lb://cloud-svc-provider
           predicates:
-            - Path=/product/**
+            - Path=/provider/**
+          filters:
+            - StripPrefix=1
+        # Sentinel Route Demo
         - id: httpbin_route
           uri: https://httpbin.org
           predicates:

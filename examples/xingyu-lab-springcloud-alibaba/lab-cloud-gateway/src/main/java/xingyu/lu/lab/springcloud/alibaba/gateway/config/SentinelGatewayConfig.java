@@ -168,7 +168,7 @@ public class SentinelGatewayConfig {
     private void initGatewayRules() {
         Set<GatewayFlowRule> rules = new HashSet<>();
 
-        rules.add(new GatewayFlowRule("aliyun_route")
+        rules.add(new GatewayFlowRule("cloud_svc_provider")
                 .setGrade(RuleConstant.FLOW_GRADE_QPS)
                 .setCount(2)
                 .setIntervalSec(10)
