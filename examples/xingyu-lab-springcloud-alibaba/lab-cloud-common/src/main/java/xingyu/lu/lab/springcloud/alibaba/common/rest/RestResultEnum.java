@@ -1,4 +1,4 @@
-package xingyu.lu.lab.springcloud.alibaba.config.rest;
+package xingyu.lu.lab.springcloud.alibaba.common.rest;
 
 /**
  * Integrated Example common result enum class.

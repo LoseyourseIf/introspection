@@ -2,7 +2,7 @@ package xingyu.lu.lab.springcloud.alibaba.svc.consumer.feign;
 
 import lombok.Getter;
 import lombok.Setter;
-import xingyu.lu.lab.springcloud.alibaba.config.rest.RestResult;
+import xingyu.lu.lab.springcloud.alibaba.common.rest.RestResult;
 
 /**
  * @Description: 降级处理类

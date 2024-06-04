@@ -1,4 +1,4 @@
-package xingyu.lu.lab.springcloud.alibaba.config.mbp;
+package xingyu.lu.lab.springcloud.alibaba.common.mbp;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

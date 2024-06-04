@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import xingyu.lu.lab.springcloud.alibaba.config.rest.RestResult;
+import xingyu.lu.lab.springcloud.alibaba.common.rest.RestResult;
 import xingyu.lu.lab.springcloud.alibaba.svc.consumer.feign.CloudSVCProviderFeignClient;
 
 /**
