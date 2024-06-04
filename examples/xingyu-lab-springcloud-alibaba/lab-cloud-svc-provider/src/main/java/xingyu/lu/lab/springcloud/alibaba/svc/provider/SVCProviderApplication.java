@@ -6,7 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * @Description: SVCProviderApplication
+ * @Description: SVCProviderApplication  Allow Parallel RUN
  * @Version: 1.0
  * @Author: XingYu.Lu
  * @CreateTime: 2024-06-03  16:04

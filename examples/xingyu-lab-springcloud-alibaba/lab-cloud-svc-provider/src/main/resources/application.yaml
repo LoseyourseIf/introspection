@@ -1,5 +1,6 @@
 server:
   port: ${random.int[18600,18699]}
+# For Allow Parallel RUN
 
 management:
   endpoints:
