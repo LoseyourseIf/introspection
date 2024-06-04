@@ -21,7 +21,7 @@ public class ProviderController {
     private Integer serverPort;
 
     @GetMapping("/echo")
-    public RestResult<String> echo(@RequestParam String name) {
+    public RestResult<?> echo(@RequestParam String name) {
         // 记录被调用的日志
         log.info("[echo][ provider-({}) 被调用 name({}) ]", serverPort, name);
 
