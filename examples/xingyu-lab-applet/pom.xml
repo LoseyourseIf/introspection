@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>xingyu.lab</groupId>
-    <artifactId>xingyu-lab-wx-applet</artifactId>
+    <artifactId>xingyu-lab-applet</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <packaging>jar</packaging>
