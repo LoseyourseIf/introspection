@@ -1,4 +1,4 @@
-package xingyu.lu.lab.tests.test;
+package xingyu.lu.lab.tests;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

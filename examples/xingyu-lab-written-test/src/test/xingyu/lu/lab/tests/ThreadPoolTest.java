@@ -1,4 +1,4 @@
-package xingyu.lu.lab.tests.test;
+package xingyu.lu.lab.tests;
 
 import org.junit.Test;
 import xingyu.lu.lab.threadpool.ThreadPoolService;
