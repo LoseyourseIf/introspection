@@ -8,7 +8,7 @@ import java.util.*;
  * @author xingyu.lu
  * @create 2018-04-19 10:04
  **/
-public class CollectionsDataType {
+public class CollectionStructure {
 
     private Collection collection;
 

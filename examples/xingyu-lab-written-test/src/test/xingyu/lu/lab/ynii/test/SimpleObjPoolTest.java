@@ -1,8 +1,8 @@
-package xingyu.lu.lab.ynii.test;
+package xingyu.lu.lab.tests.test;
 
 import org.junit.Test;
-import xingyu.lu.lab.ynii.PoolObj;
-import xingyu.lu.lab.ynii.SimpleObjPool;
+import xingyu.lu.lab.tests.PoolObj;
+import xingyu.lu.lab.tests.SimpleObjPool;
 
 /**
  * @author xingyu.lu

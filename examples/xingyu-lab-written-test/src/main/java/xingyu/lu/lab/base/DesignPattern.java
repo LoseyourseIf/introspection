@@ -5,7 +5,7 @@ public class DesignPattern {
 
 
     static class SingletonPattern {
-        /*
+        /**
          * (╯‵□′)╯︵┻━┻
          * volatile 禁止指令重排序
          * 1.多线程间的可见性

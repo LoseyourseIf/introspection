@@ -6,12 +6,12 @@ package xingyu.lu.lab.base;
  * @author xingyu.lu
  * @create 2018-03-07 16:12
  **/
-public class CommonlyUsedSorting {
+public class SortingAlgorithm {
 
     private int[] arr = {4, 5, 1, 2, 8, 6, 7, 3, 10, 9};
 
     public static void main(String[] args) {
-        CommonlyUsedSorting sorting = new CommonlyUsedSorting();
+        SortingAlgorithm sorting = new SortingAlgorithm();
 
 //        sorting.bubblingSorting(sorting.arr);
 //        sorting.selectionSorting(sorting.arr);

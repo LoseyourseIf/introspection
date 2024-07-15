@@ -1,8 +1,8 @@
-package xingyu.lu.lab.ynii.test;
+package xingyu.lu.lab.tests.test;
 
 
 import org.junit.Test;
-import xingyu.lu.lab.ynii.SinglyLinkedList;
+import xingyu.lu.lab.tests.SinglyLinkedList;
 
 /**
  * @author xingyu.lu

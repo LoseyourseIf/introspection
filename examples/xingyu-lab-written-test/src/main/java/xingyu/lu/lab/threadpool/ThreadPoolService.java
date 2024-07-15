@@ -10,7 +10,7 @@ import java.util.concurrent.*;
 public class ThreadPoolService {
 
     private static final ThreadFactory NAMED_THREAD_FACTORY = new ThreadFactoryBuilder()
-            .setNameFormat("OPENDATA_TASK-POOL-%d").build();
+            .setNameFormat("PROJ-TASK-POOL-%d").build();
 
     /**
      * 阿⾥巴巴的JAVA开发⼿册推荐⽤ThreadPoolExecutor创建线程池

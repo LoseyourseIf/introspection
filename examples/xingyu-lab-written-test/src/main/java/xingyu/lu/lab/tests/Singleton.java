@@ -1,4 +1,4 @@
-package xingyu.lu.lab.ynii;
+package xingyu.lu.lab.tests;
 
 /**
  * 手写单例模式
