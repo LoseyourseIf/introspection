@@ -1,4 +1,4 @@
-package xingyu.lu.lab.tests;
+package xingyu.lu.lab.leet;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Builder;
@@ -89,7 +89,6 @@ public class FakeCoinProblem {
                     findFakeCoin(subListA) :
                     findFakeCoin(subListB);
         }
-
     }
 
     public static void main(String[] args) {
