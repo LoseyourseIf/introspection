@@ -39,7 +39,7 @@ data:
     wal_keep_size = 10GB
     wal_sender_timeout = 60s
     archive_mode = on
-    archive_command = 'test ! -f /pg_archive/%f && cp %p /pg_archive/%f'
+    archive_command = 'test ! -f /pg_archive/%f && cp %p /pg_archive/%f && find /pg_archive -type f -name "000000*" -mtime +7 -delete'
     checkpoint_timeout = 15min
     max_wal_size = 10GB
     checkpoint_completion_target = 0.9
