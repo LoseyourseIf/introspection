@@ -1,0 +1,51 @@
+services:
+  pg_slave:
+    image: postgres:15-alpine
+    container_name: pg_slave
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_PASSWORD: Aa123456
+    volumes:
+      - /data/pg_slave:/var/lib/postgresql/data
+      - ./entrypoint-slave.sh:/entrypoint-slave.sh:ro
+    ports:
+      - "5432:5432"
+    entrypoint: ["/bin/bash", "/entrypoint_slave.sh"]
+    command: >
+      postgres
+      -c max_connections=65535
+      -c superuser_reserved_connections=10
+      -c shared_buffers=8GB
+      -c effective_cache_size=24GB
+      -c work_mem=64MB
+      -c maintenance_work_mem=1GB
+      -c temp_file_limit=16GB
+      -c wal_level=replica
+      -c max_wal_senders=10
+      -c wal_keep_size=10GB
+      -c wal_sender_timeout=60s
+      -c hot_standby=on
+      -c max_standby_streaming_delay=30s
+      -c wal_receiver_timeout=60s
+      -c hot_standby_feedback=on
+      -c checkpoint_timeout=15min
+      -c max_wal_size=10GB
+      -c checkpoint_completion_target=0.9
+      -c bgwriter_delay=50ms
+      -c bgwriter_lru_maxpages=1000
+      -c bgwriter_flush_after=512kB
+      -c max_parallel_workers_per_gather=4
+      -c max_parallel_workers=16
+      -c max_parallel_maintenance_workers=4
+      -c default_statistics_target=200
+      -c random_page_cost=4.0
+      -c listen_addresses='*'
+      -c logging_collector=on
+      -c log_destination=stderr
+      -c log_directory=log
+      -c log_filename='postgresql-%Y%m%d_%H%M%S.log'
+      -c log_rotation_age=1d
+      -c log_rotation_size=100MB
+      -c log_min_duration_statement=1000
+      -c log_line_prefix='%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '

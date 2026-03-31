@@ -1,0 +1,119 @@
+# ==========================================================
+# PostgreSQL 从库 - ConfigMap (修复 here-document 问题)
+# ==========================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-slave-config
+  namespace: postgres-15-alpine-master-slave
+  labels:
+    app: postgres-ha
+    role: slave
+data:
+  entrypoint-slave.sh: |
+    #!/bin/bash
+    set -e
+    
+    # 如果数据目录为空，则从主库进行基础备份
+    if [ -z "$(ls -A $PGDATA 2>/dev/null)" ]; then
+        echo "=== 从库数据目录为空，开始从主库进行基础备份 ==="
+    
+        # 等待主库就绪
+        until pg_isready -h postgres-master-nodeport -p 5432 -U postgres; do
+            echo "等待主库就绪..."
+            sleep 2
+        done
+    
+        # 使用 pg_basebackup 从主库复制数据
+        PGPASSWORD="$REPLICATION_PASSWORD" pg_basebackup \
+            -h postgres-master-nodeport \
+            -U postgres \
+            -D "$PGDATA" \
+            -Fp \
+            -Xs \
+            -P \
+            -v \
+            -R \
+            -W
+    
+        echo "=== 基础备份完成 ==="
+    
+        # 配置热备参数
+        echo "# 热备配置" >> "$PGDATA/postgresql.conf"
+        echo "hot_standby = on" >> "$PGDATA/postgresql.conf"
+        echo "max_standby_streaming_delay = 30s" >> "$PGDATA/postgresql.conf"
+        echo "wal_receiver_timeout = 60s" >> "$PGDATA/postgresql.conf"
+        echo "hot_standby_feedback = on" >> "$PGDATA/postgresql.conf"
+        echo "primary_conninfo = 'host=postgres-master-nodeport port=5432 user=postgres password=$REPLICATION_PASSWORD'" >> "$PGDATA/postgresql.conf"
+    
+        # 创建 standby.signal 文件标记为从库
+        touch "$PGDATA/standby.signal"
+    
+        # 确保数据目录权限正确
+        chown -R postgres:postgres "$PGDATA"
+        chmod 700 "$PGDATA"
+    else
+        echo "=== 从库数据目录已存在，跳过基础备份 ==="
+    fi
+    
+    # 确保数据目录权限正确（无论是否新创建）
+    chown -R postgres:postgres "$PGDATA"
+    chmod 700 "$PGDATA"
+    
+    # 使用 su-exec 切换到 postgres 用户启动 PostgreSQL (Alpine 镜像使用 su-exec 而非 gosu)
+    echo "=== 启动 PostgreSQL（切换到 postgres 用户）==="
+    exec su-exec postgres postgres "$@"
+
+  postgresql.conf: |
+    # 连接配置
+    max_connections = 65535
+    superuser_reserved_connections = 10
+    listen_addresses = '*'
+    
+    # 内存配置 (16核32GB环境)
+    shared_buffers = 8GB
+    effective_cache_size = 24GB
+    work_mem = 64MB
+    maintenance_work_mem = 1GB
+    temp_file_limit = 16GB
+    
+    # WAL / 流复制配置
+    wal_level = replica
+    max_wal_senders = 10
+    wal_keep_size = 10GB
+    wal_sender_timeout = 60s
+    
+    # 热备配置
+    hot_standby = on
+    max_standby_streaming_delay = 30s
+    wal_receiver_timeout = 60s
+    hot_standby_feedback = on
+    
+    # 检查点配置
+    checkpoint_timeout = 15min
+    max_wal_size = 10GB
+    checkpoint_completion_target = 0.9
+    
+    # 后台写入配置
+    bgwriter_delay = 50ms
+    bgwriter_lru_maxpages = 1000
+    bgwriter_flush_after = 512kB
+    
+    # 并行查询配置
+    max_parallel_workers_per_gather = 4
+    max_parallel_workers = 16
+    max_parallel_maintenance_workers = 4
+    
+    # 优化器配置
+    default_statistics_target = 200
+    random_page_cost = 4.0
+    
+    # 日志配置
+    logging_collector = on
+    log_destination = stderr
+    log_directory = 'log'
+    log_filename = 'postgresql-%Y%m%d_%H%M%S.log'
+    log_rotation_age = 1d
+    log_rotation_size = 100MB
+    log_min_duration_statement = 1000
+    log_line_prefix = '%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '

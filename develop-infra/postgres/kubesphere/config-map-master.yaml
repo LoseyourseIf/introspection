@@ -1,0 +1,90 @@
+# noinspection NginxDirectiveValueInspection
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: postgres-master-config
+  namespace: postgres-15-alpine-master-slave
+  labels:
+    app: postgres-ha
+    role: master
+data:
+  init-master.sh: |
+    #!/bin/bash
+    set -e
+    
+    HBA_FILE="$PGDATA/pg_hba.conf"
+    CONF_FILE="$PGDATA/postgresql.conf"
+    # 等待初始化完成（docker-entrypoint.sh 会创建 PGDATA）
+    while [ ! -f "$PGDATA/PG_VERSION" ]; do
+        sleep 1
+    done
+        # 备份原始配置
+    cp "$CONF_FILE" "$CONF_FILE.backup" 2>/dev/null || true
+    
+    # 追加自定义配置到文件末尾（或覆盖特定参数）
+    
+    cat >> "$CONF_FILE" << 'EOF'
+    # ==========================================
+    # 自定义配置（追加到末尾，优先级更高）
+    # ==========================================
+    max_connections = 65535
+    superuser_reserved_connections = 10
+    shared_buffers = 8GB
+    effective_cache_size = 24GB
+    work_mem = 64MB
+    maintenance_work_mem = 1GB
+    temp_file_limit = 16GB
+    wal_level = replica
+    max_wal_senders = 10
+    wal_keep_size = 10GB
+    wal_sender_timeout = 60s
+    archive_mode = on
+    archive_command = 'test ! -f /pg_archive/%f && cp %p /pg_archive/%f'
+    checkpoint_timeout = 15min
+    max_wal_size = 10GB
+    checkpoint_completion_target = 0.9
+    bgwriter_delay = 50ms
+    bgwriter_lru_maxpages = 1000
+    bgwriter_flush_after = 512kB
+    max_parallel_workers_per_gather = 4
+    max_parallel_workers = 16
+    max_parallel_maintenance_workers = 4
+    default_statistics_target = 200
+    random_page_cost = 4.0
+    logging_collector = on
+    log_destination = stderr
+    log_directory = 'log'
+    log_filename = 'postgresql-%Y%m%d_%H%M%S.log'
+    log_rotation_age = 1d
+    log_rotation_size = 100MB
+    log_min_duration_statement = 10000
+    log_line_prefix = '%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '
+    EOF
+    # ==========================================
+    # 必须使用 CIDR 格式的 IP 网段
+    # ==========================================
+    
+    # 删除可能已存在的错误条目（避免重复）
+    sed -i '/host replication postgres all md5/d' "$HBA_FILE" 2>/dev/null || true
+    sed -i '/host all postgres all md5/d' "$HBA_FILE" 2>/dev/null || true
+    
+    # 添加复制权限：允许所有 IPv4 和 IPv6 地址
+    if ! grep -q "host replication postgres 0.0.0.0/0 md5" "$HBA_FILE"; then
+        echo "host replication postgres 0.0.0.0/0 md5" >> "$HBA_FILE"
+    fi
+    
+    if ! grep -q "host replication postgres ::/0 md5" "$HBA_FILE"; then
+        echo "host replication postgres ::/0 md5" >> "$HBA_FILE"
+    fi
+    
+    # 添加普通连接权限：允许所有 IP 使用 md5 认证
+    if ! grep -q "host all postgres 0.0.0.0/0 md5" "$HBA_FILE"; then
+        echo "host all postgres 0.0.0.0/0 md5" >> "$HBA_FILE"
+    fi
+    
+    if ! grep -q "host all postgres ::/0 md5" "$HBA_FILE"; then
+        echo "host all postgres ::/0 md5" >> "$HBA_FILE"
+    fi
+    
+    echo "pg_hba.conf updated successfully"
+    pg_ctl restart -D "$PGDATA" -m fast || true

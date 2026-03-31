@@ -1,0 +1,30 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres-master-nodeport
+  namespace: postgres-15-alpine-master-slave
+  labels:
+    app: postgres-master-nodeport
+  annotations:
+    kubesphere.io/creator: admin
+    kubesphere.io/description: pg-master-nodeport
+spec:
+  ports:
+    - name: pg-tcp-5432
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+      nodePort: 31220
+  selector:
+    app: postgres-ha
+    role: master
+  clusterIP: 10.233.18.169
+  clusterIPs:
+    - 10.233.18.169
+  type: NodePort
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster

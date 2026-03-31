@@ -1,0 +1,127 @@
+# ==========================================================
+# PostgreSQL 主库 - StatefulSet
+# 数据库建议使用 StatefulSet 以保证稳定的网络标识和存储
+# ==========================================================
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-master
+  namespace: postgres-15-alpine-master-slave
+  labels:
+    app: postgres-ha
+    role: master
+spec:
+  serviceName: postgres-master
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-ha
+      role: master
+  template:
+    metadata:
+      labels:
+        app: postgres-ha
+        role: master
+    spec:
+      # ========== 关键：安全上下文 ==========
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+      initContainers:
+        - name: init-permissions
+          image: postgres:15-alpine
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Fixing permissions..."
+              chown -R 999:999 /var/lib/postgresql/data
+              chown -R 999:999 /pg_archive
+              chmod 700 /var/lib/postgresql/data/pgdata 2>/dev/null || true
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            - name: archive
+              mountPath: /pg_archive
+          securityContext:
+            runAsUser: 0
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+              name: postgres
+              protocol: TCP
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              value: "audit_refact"
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
+            - name: REPLICATION_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: REPLICATION_PASSWORD
+          # 资源限制（根据你的 16核32GB 环境调整）
+          resources:
+            requests:
+              memory: "8Gi"
+              cpu: "4"
+            limits:
+              memory: "24Gi"
+              cpu: "12"
+          volumeMounts:
+            # 数据目录
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            # 归档目录
+            - name: archive
+              mountPath: /pg_archive
+            # 初始化脚本
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d
+          # 健康检查
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - postgres
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - postgres
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: postgres-master-data
+        - name: archive
+          persistentVolumeClaim:
+            claimName: postgres-master-archive
+        - name: init-script
+          configMap:
+            name: postgres-master-config
+            items:
+              - key: init-master.sh
+                path: init-master.sh
+                mode: 0755

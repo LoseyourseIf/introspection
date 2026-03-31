@@ -1,0 +1,40 @@
+# ==========================================================
+# PostgreSQL 主库 - PersistentVolumeClaim
+# 用于数据持久化存储
+# ==========================================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-master-data
+  namespace: postgres-15-alpine-master-slave
+  labels:
+    app: postgres-ha
+    role: master
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # 根据你的存储类修改，例如：nfs-client, ceph-block, local-path 等
+  storageClassName: "rook-ceph-block"
+  resources:
+    requests:
+      # 根据实际需求调整存储大小
+      storage: 50Gi
+---
+# 主库归档存储 PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-master-archive
+  namespace: postgres-15-alpine-master-slave
+  labels:
+    app: postgres-ha
+    role: master
+    type: archive
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: "rook-ceph-block"
+  resources:
+    requests:
+      # 归档存储，建议设置较大的空间
+      storage: 100Gi

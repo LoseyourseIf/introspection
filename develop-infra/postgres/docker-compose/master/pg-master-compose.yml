@@ -1,0 +1,83 @@
+# ==========================================================
+# PostgreSQL 15 主库 docker-compose.yml
+# 硬件：16 核 32 GB | 业务：10+ Java 线程、已分表
+# 关键参数说明：
+#   max_connections=65535              – 最大连接数（受内存/内核限制，需配合连接池）
+#   superuser_reserved_connections=10  – 超级用户预留通道
+#   shared_buffers=8GB                 – 共享内存缓存 ≈25 % 物理内存
+#   effective_cache_size=24GB          – 优化器可用缓存估算（OS+PG）
+#   work_mem=64MB                      – 单条排序/哈希内存上限
+#   maintenance_work_mem=1GB           – VACUUM/CREATE INDEX 一次性内存
+#   temp_file_limit=16GB               – 单 SQL 临时文件上限
+#   wal_level=replica                  – 支持流复制与归档
+#   max_wal_senders=10                 – 并发复制/备份工具连接数
+#   wal_keep_size=10GB                 – 主库保留 WAL 上限，断网续传容错
+#   wal_sender_timeout=60s             – 主→从 socket 超时
+#   archive_mode=on                    – 打开归档，支持 PITR
+#   archive_command=...                – 本地归档命令（幂等）
+#   checkpoint_timeout=15min           – 检查点时间间隔
+#   max_wal_size=10GB                  – 触发检查点的 WAL 量
+#   checkpoint_completion_target=0.9   – 平滑刷盘，避免 IO 尖刺
+#   bgwriter_*                         – 后台写脏页调优
+#   max_parallel_workers_*             – 并行查询与维护并行度
+#   default_statistics_target=200      – 扩大列采样，优化器估算更准
+#   random_page_cost=4.0               – 机械盘成本系数（SSD 请改 1.1）
+#   listen_addresses='*'               – 监听所有网卡
+#   logging_collector=on               – 打开日志收集器
+#   log_rotation_age=1d / size=100MB   – 日志按天/大小滚动
+#   log_min_duration_statement=10000   – ≥10 s 慢 SQL 落盘
+#   log_line_prefix=...                – 时间、进程、用户、数据库、客户端 IP
+#   注意  /data/pg_archive:/pg_archive  目录权限应改为 70 即 docker 用户所有 否则容器内 pg 无法执行归档
+#   另归档路径应设置合理的自动清理防止数据积压 如使用 crontab 设置定时删除 /data/pg_archive 7 天前的 归档数据
+# ==========================================================
+services:
+  pg_master:
+    image: postgres:15-alpine
+    container_name: pg_master
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Aa123456
+      POSTGRES_DB: audit_refact
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - /data/pg_master:/var/lib/postgresql/data
+      - /data/pg_archive:/pg_archive
+      - ./init-master.sh:/docker-entrypoint-initdb.d/init-master.sh:ro
+    ports:
+      - "5432:5432"
+    command: >
+      postgres
+      -c max_connections=65535
+      -c superuser_reserved_connections=10
+      -c shared_buffers=8GB
+      -c effective_cache_size=24GB
+      -c work_mem=64MB
+      -c maintenance_work_mem=1GB
+      -c temp_file_limit=16GB
+      -c wal_level=replica
+      -c max_wal_senders=10
+      -c wal_keep_size=10GB
+      -c wal_sender_timeout=60s
+      -c archive_mode=on
+      -c archive_command='test ! -f /pg_archive/%f && cp %p /pg_archive/%f'
+      -c checkpoint_timeout=15min
+      -c max_wal_size=10GB
+      -c checkpoint_completion_target=0.9
+      -c bgwriter_delay=50ms
+      -c bgwriter_lru_maxpages=1000
+      -c bgwriter_flush_after=512kB
+      -c max_parallel_workers_per_gather=4
+      -c max_parallel_workers=16
+      -c max_parallel_maintenance_workers=4
+      -c default_statistics_target=200
+      -c random_page_cost=4.0
+      -c listen_addresses='*'
+      -c logging_collector=on
+      -c log_destination=stderr
+      -c log_directory=log
+      -c log_filename='postgresql-%Y%m%d_%H%M%S.log'
+      -c log_rotation_age=1d
+      -c log_rotation_size=100MB
+      -c log_min_duration_statement=10000
+      -c log_line_prefix='%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h '
